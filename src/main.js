@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Form, FormItem, Input, Card, Icon, Button, Message } from 'iview'
+import { Form, FormItem, Input, Card, Icon, Button, Message, Switch } from 'iview'
 import axios from 'axios'
 import App from './App'
 import router from './router'
@@ -18,6 +18,7 @@ Vue.component('Input', Input)
 Vue.component('Card', Card)
 Vue.component('Icon', Icon)
 Vue.component('Button', Button)
+Vue.component('i-switch', Switch)
 
 /* eslint-disable no-new */
 new Vue({

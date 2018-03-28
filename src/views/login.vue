@@ -1,7 +1,3 @@
-<style lang="less">
-@import "./login.less";
-</style>
-
 <template>
     <div class="login" @keydown.enter="handleSubmit">
         <div class="login-con">
@@ -26,11 +22,13 @@
                             </span>
                             </Input>
                         </FormItem>
+                        <FormItem label="记住我" prop="remember">
+                            <i-switch v-model="form.remember" size="small"></i-switch>
+                        </FormItem>
                         <FormItem>
                             <Button @click="handleSubmit" type="primary" long>登录</Button>
                         </FormItem>
                     </Form>
-                    <p class="login-tip">输入任意用户名和密码即可</p>
                 </div>
             </Card>
         </div>
@@ -41,12 +39,14 @@
 <script>
 import Cookies from 'js-cookie'
 import THREE from '../libs/three/three'
+
 export default {
     data () {
         return {
             form: {
-                userName: 'iview_admin',
-                password: ''
+                userName: '',
+                password: '',
+                remember: false
             },
             rules: {
                 userName: [
@@ -63,7 +63,7 @@ export default {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
                     Cookies.set('user', this.form.userName)
-                    Cookies.set('password', this.form.password)
+                    // Cookies.set('password', this.form.password)
                     // this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg')
                     // if (this.form.userName === 'iview_admin') {
                     //     Cookies.set('access', 0)
@@ -160,7 +160,47 @@ export default {
         }
     },
     mounted () {
-        this.initAnimation()
+        // this.initAnimation()
     }
 }
 </script>
+
+<style lang="less">
+.login {
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/bg-new.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  &-con {
+    position: absolute;
+    right: 160px;
+    top: 50%;
+    transform: translateY(-60%);
+    width: 300px;
+    z-index: 3;
+    &-header {
+      font-size: 16px;
+      font-weight: 300;
+      text-align: center;
+      padding: 30px 0;
+    }
+    .form-con {
+      padding: 10px 0 0;
+    }
+    .login-tip {
+      font-size: 10px;
+      text-align: center;
+      color: #c3c3c3;
+    }
+  }
+}
+#indexLizi {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+</style>
