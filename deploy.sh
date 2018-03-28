@@ -1,3 +1,3 @@
 #!/bin/sh
-rm -rf /deploy/distribution/*
-cp -r $1/dist/* /deploy/distribution/
+rm -rf /deploy/ccmanager/*
+cp -r $1/dist/* /deploy/ccmanager/
