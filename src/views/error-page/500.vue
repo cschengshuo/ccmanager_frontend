@@ -7,11 +7,9 @@
         <div class="error500-body-con">
             <Card>
                 <div class="error500-body-con-title">
-                    5
-                    <span class="error500-0-span">
+                    5<span class="error500-0-span">
                         <Icon type="social-freebsd-devil"></Icon>
-                    </span>
-                    <span class="error500-0-span">
+                    </span><span class="error500-0-span">
                         <Icon type="social-freebsd-devil"></Icon>
                     </span>
                 </div>

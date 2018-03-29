@@ -6,11 +6,10 @@
     <div class="error403">
         <div class="error403-body-con">
             <Card>
-                <div class="error403-body-con-title">4
-                    <span class="error403-0-span">
+                <div class="error403-body-con-title">
+                    4<span class="error403-0-span">
                         <Icon type="android-lock"></Icon>
-                    </span>
-                    <span class="error403-key-span">
+                    </span><span class="error403-key-span">
                         <Icon size="220" type="ios-bolt"></Icon>
                     </span>
                 </div>

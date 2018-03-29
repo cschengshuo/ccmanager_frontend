@@ -8,7 +8,7 @@ import 'iview/dist/styles/iview.css'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios.create({ withCredentials: true })
 Vue.prototype.$Message = Message
 
 // 按需引入iview组件
