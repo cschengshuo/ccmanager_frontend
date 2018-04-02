@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import iView from 'iview'
 import Router from 'vue-router'
+import store from '@/store'
 import Main from '@/views/Main'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 Vue.use(Router)
 
@@ -35,6 +36,7 @@ export const page500 = {
 
 const router = new Router({
     mode: 'history',
+    scrollBehavior: () => ({ y: 0 }),
     routes: [
         {
             path: '/login',
@@ -69,21 +71,27 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start()
     document.title = to.meta.title
-    if (!Cookies.get('user') && to.name !== 'login') { // 判断是否已经登录且前往的页面不是登录页
-        next({
-            path: '/login'
-        })
-    } else if (Cookies.get('user') && to.name === 'login') { // 判断是否已经登录且前往的是登录页
-        next({
-            path: '/home'
-        })
+    if (!sessionStorage.jwt) {
+        if (to.name !== 'login') {
+            next({
+                path: '/login'
+            })
+        }
+    } else {
+        if (!store.state.initialized) {
+            store.dispatch('getUserInfo')
+        }
+        if (to.name === 'login') {
+            next({
+                path: '/home'
+            })
+        }
     }
     next()
 })
 
 router.afterEach((to) => {
     iView.LoadingBar.finish()
-    window.scrollTo(0, 0)
 })
 
 export default router
