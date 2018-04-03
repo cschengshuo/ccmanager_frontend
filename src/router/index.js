@@ -36,6 +36,7 @@ export const page500 = {
 
 const router = new Router({
     mode: 'history',
+    base: '/',
     scrollBehavior: () => ({ y: 0 }),
     routes: [
         {
