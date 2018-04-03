@@ -58,7 +58,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/ccmanager666',
+    assetsPublicPath: '/ccmanager666/',
 
     /**
      * Source Maps
