@@ -8,7 +8,8 @@ import 'iview/dist/styles/iview.css'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = axios.create({ baseURL: '/' })
+Vue.prototype.$http = axios
+axios.defaults.baseURL = '/'
 Vue.prototype.$Message = Message
 
 axios.interceptors.request.use(config => {
