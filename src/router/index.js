@@ -42,7 +42,7 @@ const router = new Router({
         {
             path: '/login',
             name: 'login',
-            component: () => import('@/views/login.vue'),
+            component: () => import('@/views/Login.vue'),
             meta: {
                 title: '登录页面'
             }
@@ -56,7 +56,7 @@ const router = new Router({
                 {
                     path: 'home',
                     name: 'home_index',
-                    component: () => import('@/views/home/home.vue'),
+                    component: () => import('@/views/home/Home.vue'),
                     meta: {
                         title: '管理平台'
                     }
