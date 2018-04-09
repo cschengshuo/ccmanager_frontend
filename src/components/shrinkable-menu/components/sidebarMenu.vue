@@ -51,14 +51,13 @@ export default {
                 return item.title
             }
         }
-    },
+    }/* ,
     updated () {
         this.$nextTick(() => {
             if (this.$refs.sideMenu) {
                 this.$refs.sideMenu.updateOpened()
             }
         })
-    }
-
+    } */
 }
 </script>

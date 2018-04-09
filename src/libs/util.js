@@ -1,12 +1,9 @@
-let util = {
-
-}
-util.title = function (title) {
-    title = title || 'iView admin'
-    window.document.title = title
+const title = function (title) {
+    title = title || '管理系统'
+    document.title = title
 }
 
-util.inOf = function (arr, targetArr) {
+const inOf = function (arr, targetArr) {
     let res = true
     arr.forEach(item => {
         if (targetArr.indexOf(item) < 0) {
@@ -16,7 +13,7 @@ util.inOf = function (arr, targetArr) {
     return res
 }
 
-util.oneOf = function (ele, targetArr) {
+const oneOf = function (ele, targetArr) {
     if (targetArr.indexOf(ele) >= 0) {
         return true
     } else {
@@ -24,15 +21,15 @@ util.oneOf = function (ele, targetArr) {
     }
 }
 
-util.showThisRoute = function (itAccess, currentAccess) {
+const showThisRoute = function (itAccess, currentAccess) {
     if (typeof itAccess === 'object' && Array.isArray(itAccess)) {
-        return util.oneOf(currentAccess, itAccess)
+        return this.oneOf(currentAccess, itAccess)
     } else {
         return itAccess === currentAccess
     }
 }
 
-util.getRouterObjByName = function (routers, name) {
+const getRouterObjByName = function (routers, name) {
     if (!name || !routers || !routers.length) {
         return null
     }
@@ -42,7 +39,7 @@ util.getRouterObjByName = function (routers, name) {
         if (item.name === name) {
             return item
         }
-        routerObj = util.getRouterObjByName(item.children, name)
+        routerObj = this.getRouterObjByName(item.children, name)
         if (routerObj) {
             return routerObj
         }
@@ -50,7 +47,7 @@ util.getRouterObjByName = function (routers, name) {
     return null
 }
 
-util.handleTitle = function (vm, item) {
+const handleTitle = function (vm, item) {
     if (typeof item.title === 'object') {
         return vm.$t(item.title.i18n)
     } else {
@@ -58,13 +55,13 @@ util.handleTitle = function (vm, item) {
     }
 }
 
-util.setCurrentPath = function (vm, name) {
+const setCurrentPath = function (vm, name) {
     let title = ''
     let isOtherRouter = false
     vm.$store.state.app.routers.forEach(item => {
         if (item.children.length === 1) {
             if (item.children[0].name === name) {
-                title = util.handleTitle(vm, item)
+                title = this.handleTitle(vm, item)
                 if (item.name === 'otherRouter') {
                     isOtherRouter = true
                 }
@@ -72,7 +69,7 @@ util.setCurrentPath = function (vm, name) {
         } else {
             item.children.forEach(child => {
                 if (child.name === name) {
-                    title = util.handleTitle(vm, child)
+                    title = this.handleTitle(vm, child)
                     if (item.name === 'otherRouter') {
                         isOtherRouter = true
                     }
@@ -84,7 +81,7 @@ util.setCurrentPath = function (vm, name) {
     if (name === 'home_index') {
         currentPathArr = [
             {
-                title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
+                title: this.handleTitle(vm, this.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
                 path: '',
                 name: 'home_index'
             }
@@ -92,7 +89,7 @@ util.setCurrentPath = function (vm, name) {
     } else if ((name.indexOf('_index') >= 0 || isOtherRouter) && name !== 'home_index') {
         currentPathArr = [
             {
-                title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
+                title: this.handleTitle(vm, this.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
                 path: '/home',
                 name: 'home_index'
             },
@@ -168,7 +165,7 @@ util.setCurrentPath = function (vm, name) {
     return currentPathArr
 }
 
-util.openNewPage = function (vm, name, argu, query) {
+const openNewPage = function (vm, name, argu, query) {
     let pageOpenedList = vm.$store.state.app.pageOpenedList
     let openedPageLen = pageOpenedList.length
     let i = 0
@@ -208,7 +205,7 @@ util.openNewPage = function (vm, name, argu, query) {
     vm.$store.commit('setCurrentPageName', name)
 }
 
-util.toDefaultPage = function (routers, name, route, next) {
+const toDefaultPage = function (routers, name, route, next) {
     let len = routers.length
     let i = 0
     let notHandle = true
@@ -228,11 +225,88 @@ util.toDefaultPage = function (routers, name, route, next) {
     }
 }
 
-util.fullscreenEvent = function (vm) {
+const fullscreenEvent = function (vm) {
     vm.$store.commit('initCachepage')
     // 权限菜单过滤相关
     vm.$store.commit('updateMenulist')
     // 全屏相关
 }
+
+const checkCard = (code) => {
+    let city = {
+        11: '北京',
+        12: '天津',
+        13: '河北',
+        14: '山西',
+        15: '内蒙古',
+        21: '辽宁',
+        22: '吉林',
+        23: '黑龙江 ',
+        31: '上海',
+        32: '江苏',
+        33: '浙江',
+        34: '安徽',
+        35: '福建',
+        36: '江西',
+        37: '山东',
+        41: '河南',
+        42: '湖北 ',
+        43: '湖南',
+        44: '广东',
+        45: '广西',
+        46: '海南',
+        50: '重庆',
+        51: '四川',
+        52: '贵州',
+        53: '云南',
+        54: '西藏 ',
+        61: '陕西',
+        62: '甘肃',
+        63: '青海',
+        64: '宁夏',
+        65: '新疆',
+        71: '台湾',
+        81: '香港',
+        82: '澳门',
+        91: '国外 '
+    }
+    let tip = ''
+    let pass = true
+
+    if (!code || !/^[1-9][0-9]{5}(19[0-9]{2}|200[0-9]|2010)(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[0-9]{3}[0-9xX]$/i.test(code)) {
+        tip = '身份证号格式错误'
+        pass = false
+    } else if (!city[code.substr(0, 2)]) {
+        tip = '地址编码错误'
+        pass = false
+    } else {
+        // 18位身份证需要验证最后一位校验位
+        if (code.length === 18) {
+            code = code.split('')
+            // ∑(ai×Wi)(mod 11)
+            // 加权因子
+            let factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
+            // 校验位
+            let parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2]
+            let sum = 0
+            let ai = 0
+            let wi = 0
+            for (let i = 0; i < 17; i++) {
+                ai = code[i]
+                wi = factor[i]
+                sum += ai * wi
+            }
+            let last = parity[sum % 11]
+            let lastCode = parseInt(code[17])
+            if (last !== lastCode) {
+                tip = '校验位错误'
+                pass = false
+            }
+        }
+    }
+    return { tip: tip, pass: pass }
+}
+
+const util = { checkCard, fullscreenEvent, title, inOf, oneOf, showThisRoute, getRouterObjByName, handleTitle, setCurrentPath, toDefaultPage, openNewPage }
 
 export default util

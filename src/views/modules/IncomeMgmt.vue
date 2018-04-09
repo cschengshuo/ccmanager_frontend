@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>asdf</h1>
+        <Alert show-icon>收益管理施工中</Alert>
     </div>
 </template>
 

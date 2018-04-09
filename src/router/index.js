@@ -16,7 +16,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start()
-    document.title = to.meta.title
+    util.title(to.meta.title)
     if (!sessionStorage.jwt) {
         if (to.name !== 'login') {
             next({

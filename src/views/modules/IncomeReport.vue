@@ -1,55 +1,26 @@
 <template>
-    <div id="app">
-        <Tabs @on-click="shuffleTab">
-            <tab-pane label="概览" icon="aperture">
-                <Card style="width: 50%">
-                    <p slot="title">
-                        <Icon type="person-add"></Icon>
-                        平台用户发展
-                    </p>
-                    <Row :gutter="5">
-                        <Col :xs="24" :sm="12" :md="8" :style="{marginBottom: '10px'}">
-                        <infor-card id-name="user_created_count" :end-val="count.createUser" icon-type="person-add" color="#2d8cf0" intro-text="今日新增用户"></infor-card>
-                        </Col>
-                        <Col :xs="24" :sm="12" :md="8" :style="{marginBottom: '10px'}">
-                        <infor-card id-name="user_approved_count" :end-val="count.approveUser" icon-type="person-stalker" color="#64d572" :icon-size="50" intro-text="今日认证用户"></infor-card>
-                        </Col>
-                        <Col :xs="24" :sm="12" :md="8" :style="{marginBottom: '10px'}">
-                        <infor-card id-name="senior_user_count" :end-val="count.seniorUser" icon-type="planet" color="#ffd572" intro-text="今日新增高级用户"></infor-card>
-                        </Col>
-                    </Row>
-                </Card>
-            </tab-pane>
-            <tab-pane name="income" label="收益报表" icon="social-usd">
-                <Card style="margin-bottom:200px">
-                    <p slot="title">
-                        <Icon type="settings"></Icon>
-                        个人收益详情
-                    </p>
-                    <Row>
-                        <Select v-model="incomeReportType" style="width: 100px">
-                            <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                        </Select>
-                        <Date-Picker v-model="reportDateRange" v-if="showDateRange" type="daterange" placement="bottom-start" placeholder="选择时间范围" style="width: 200px"></Date-Picker>
-                        <Button @click="getIncomeReport" type="primary">查看</Button>
-                    </Row>
-                    <Row>
-                        <Table style="margin-top:10px" stripe border :loading="loading" :columns="columns" :data="data1"></Table>
-                    </Row>
-                </Card>
-            </tab-pane>
-            <tab-pane label="用户报表" icon="person-stalker">
-            </tab-pane>
-        </Tabs>
+    <div>
+        <Card style="margin-bottom:200px">
+            <p slot="title">
+                <Icon type="settings"></Icon>
+                个人收益详情
+            </p>
+            <Row>
+                <Select v-model="incomeReportType" style="width: 100px">
+                    <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+                <Date-Picker v-model="reportDateRange" v-if="showDateRange" type="daterange" placement="bottom-start" placeholder="选择时间范围" style="width: 200px"></Date-Picker>
+                <Button @click="getIncomeReport" type="primary">查看</Button>
+            </Row>
+            <Row>
+                <Table style="margin-top:10px" stripe border :loading="loading" :columns="columns" :data="data1"></Table>
+            </Row>
+        </Card>
     </div>
 </template>
 
 <script>
-import inforCard from '@/components/inforCard.vue'
 export default {
-    components: {
-        inforCard
-    },
     data () {
         return {
             loading: false,

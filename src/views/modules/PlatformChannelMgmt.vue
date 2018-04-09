@@ -1,15 +1,6 @@
 <template>
     <div id="grid">
-        <Alert show-icon>供系统管理员使用的通道管理</Alert>
-        <Alert show-icon>可修改成本费率，用于收益计算</Alert>
-        <Alert show-icon>用户费率修改功能施工中</Alert>
-        <Card>
-            <p slot="title">
-                <Icon type="settings"></Icon>
-                通道管理
-            </p>
-            <Table stripe border :loading="loading" :columns="columns" :data="data1"></Table>
-        </Card>
+        <Alert show-icon>施工中，提供给平台使用的通道管理，用于修改用户费率，且隐藏通道的成本费率</Alert>
     </div>
 </template>
 
@@ -78,9 +69,13 @@ export default {
         init () {
             let me = this
             this.loading = true
-            this.$http.get('/api/channel/findAll').then(function (response) {
+            this.$http.get('listChannels').then(function (response) {
                 me.loading = false
-                me.data1 = response.data
+                if (response.data.success) {
+                    me.data1 = response.data.data
+                } else {
+                    me.$Message.error(response.data.message)
+                }
             })
         }
     },

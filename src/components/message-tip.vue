@@ -20,7 +20,7 @@ export default {
     methods: {
         showMessage () {
             this.$router.push({
-                path: '/message_index'
+                path: '/message'
             })
         }
     }

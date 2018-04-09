@@ -133,9 +133,20 @@ export const appRouter = [
         children: [
             {
                 path: 'index',
+                icon: 'gear-b',
                 name: 'channel_mgmt_index',
                 title: '通道管理',
                 component: () => import('@/views/modules/ChannelMgmt.vue'),
+                meta: {
+                    title: '通道管理'
+                }
+            },
+            {
+                path: 'platform',
+                icon: 'gear-b',
+                name: 'platform_channel_mgmt_index',
+                title: '通道管理',
+                component: () => import('@/views/modules/PlatformChannelMgmt.vue'),
                 meta: {
                     title: '通道管理'
                 }
@@ -161,19 +172,30 @@ export const appRouter = [
         ]
     },
     {
-        path: '/statistics_report',
+        path: '/statistics',
         icon: 'podium',
-        title: '报表',
-        name: 'statistics_report',
+        title: '统计报表',
+        name: 'statistics',
         component: Main,
         children: [
             {
-                path: 'index',
-                name: 'statistics_report_index',
-                title: '报表',
-                component: () => import('@/views/modules/StatisticsReport.vue'),
+                path: 'income',
+                icon: 'social-usd',
+                name: 'income_report_index',
+                title: '收益报表',
+                component: () => import('@/views/modules/IncomeReport.vue'),
                 meta: {
-                    title: '报表'
+                    title: '收益报表'
+                }
+            },
+            {
+                path: 'user',
+                icon: 'person-add',
+                name: 'user_report_index',
+                title: '用户报表',
+                component: () => import('@/views/modules/UserReport.vue'),
+                meta: {
+                    title: '用户报表'
                 }
             }
         ]
