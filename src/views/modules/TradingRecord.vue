@@ -39,18 +39,18 @@ export default {
                         let description = ''
                         const status = params.row.status
                         switch (status) {
-                        case 0:
-                            description = '计划转账'
-                            break
-                        case 1:
-                            description = '提现转账'
-                            break
-                        case 2:
-                            description = '认证'
-                            break
-                        default:
-                            description = status
-                            break
+                            case 0:
+                                description = '计划转账'
+                                break
+                            case 1:
+                                description = '提现转账'
+                                break
+                            case 2:
+                                description = '认证'
+                                break
+                            default:
+                                description = status
+                                break
                         }
                         return h('span', description)
                     }

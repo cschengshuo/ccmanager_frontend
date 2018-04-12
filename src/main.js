@@ -28,11 +28,11 @@ axios.interceptors.response.use(response => {
     if (error.response) {
         iView.Message.error(error.response.data.message)
         switch (error.response.status) {
-        case 401:
-            store.commit('logout')
-            router.replace({
-                path: '/login'
-            })
+            case 401:
+                store.commit('logout')
+                router.replace({
+                    path: '/login'
+                })
         }
     }
     return Promise.reject(error)

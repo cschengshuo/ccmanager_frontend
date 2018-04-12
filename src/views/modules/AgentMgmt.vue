@@ -359,7 +359,6 @@ export default {
             this.$Message.warning('高级查询功能暂未上线')
         },
         remove (id) {
-            console.log(id)
             this.$Message.warning('删除代理功能暂未上线')
         },
         loadData () {
@@ -375,9 +374,9 @@ export default {
             })
         },
         onSelectChange (e) {
-            console.log(e)
-
-            this.loadData(e[0].value)
+            if (e) {
+                this.loadData(e[0].value)
+            }
         }
     },
     watch: {

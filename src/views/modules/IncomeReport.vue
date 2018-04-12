@@ -82,12 +82,12 @@ export default {
     methods: {
         shuffleTab (value) {
             switch (value) {
-            case 'income':
-                this.getIncomeReport()
-                break
+                case 'income':
+                    this.getIncomeReport()
+                    break
 
-            default:
-                break
+                default:
+                    break
             }
         },
         getIncomeReport () {

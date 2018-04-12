@@ -72,7 +72,6 @@ export default {
     },
     methods: {
         handleEdit (id) {
-            console.log(id)
             this.$Message.warning('费率修改功能暂未上线')
         },
         init () {

@@ -81,7 +81,6 @@ export default {
             this.$Message.warning('修改手机用户功能暂未上线')
         },
         remove (id) {
-            console.log(id)
             this.$Message.warning('删除手机用户功能暂未上线')
         },
         loadData (id) {
@@ -97,9 +96,9 @@ export default {
             })
         },
         onSelectChange (e) {
-            console.log(e)
-
-            this.loadData(e[0].value)
+            if (e.length > 0) {
+                this.loadData(e[0].value)
+            }
         }
     },
     mounted () {
