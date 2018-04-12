@@ -78,7 +78,7 @@ export default {
             return this.$store.state.menuList
         },
         msgCount () {
-            return 1
+            return 2
             // return this.$store.state.app.messageCount
         },
         username () {

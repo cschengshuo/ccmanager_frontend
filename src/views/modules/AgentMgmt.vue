@@ -54,7 +54,7 @@
             </Form>
         </Modal>
         <Modal v-model="showSelectParent" :styles="{top: '150px'}" :closable="false" :mask-closable="false" title="选择上级代理" @on-ok="doSelectParent">
-            <Tree ref="userTree" :data="treeData" :load-data="loadSubUser"></Tree>
+            <user-tree :onSelectChange="onSelectChange"></user-tree>
         </Modal>
         <Modal v-model="showSetFeeRate" :styles="{top: '150px'}" :closable="false" :mask-closable="false" title="设置费率" @on-ok="doSetFeeRate">
             <Form ref="agentForm" :model="formData" :label-width="80">
@@ -68,7 +68,11 @@
 
 <script>
 import util from '../../libs/util'
+import userTree from '@/components/userTree.vue'
 export default {
+    components: {
+        userTree
+    },
     data () {
         const validateIdCard = (rule, value, callback) => {
             if (!value) {
@@ -273,24 +277,12 @@ export default {
         },
         showSelectParentModal () {
             this.showSelectParent = true
-            this.loadUserTree()
         },
         showSetFeeRateModal () {
             this.showSetFeeRate = true
         },
         doSetFeeRate () {
 
-        },
-        loadUserTree () {
-            let me = this
-            this.$http.get('listSubUserTree')
-                .then(function (response) {
-                    if (response.data.success) {
-                        me.treeData = response.data.data
-                    } else {
-                        me.$Message.error(response.data.message)
-                    }
-                })
         },
         renderNode (h, { root, node, data }) {
             return h('span', [
@@ -381,6 +373,11 @@ export default {
                 me.loading = false
                 me.gridData = response.data
             })
+        },
+        onSelectChange (e) {
+            console.log(e)
+
+            this.loadData(e[0].value)
         }
     },
     watch: {
