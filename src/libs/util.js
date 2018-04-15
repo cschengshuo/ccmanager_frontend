@@ -307,6 +307,10 @@ const checkCard = (code) => {
     return { tip: tip, pass: pass }
 }
 
-const util = { checkCard, fullscreenEvent, title, inOf, oneOf, showThisRoute, getRouterObjByName, handleTitle, setCurrentPath, toDefaultPage, openNewPage }
+const strip = (num, precision = 12) => {
+    return +parseFloat(num.toPrecision(precision))
+}
+
+const util = { checkCard, fullscreenEvent, title, inOf, oneOf, showThisRoute, getRouterObjByName, handleTitle, setCurrentPath, toDefaultPage, openNewPage, strip }
 
 export default util
