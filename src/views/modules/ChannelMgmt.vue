@@ -48,6 +48,14 @@ export default {
                     key: 'platformFee'
                 },
                 {
+                    title: '成本费率',
+                    key: 'costFeeRate'
+                },
+                {
+                    title: '成本代收费',
+                    key: 'costFee'
+                },
+                {
                     title: '操作',
                     key: 'action',
                     render: (h, params) => {

@@ -1,7 +1,6 @@
 <template>
     <Modal v-model="isOpen" class-name="vertical-center-modal" :mask-closable="false" title="选择区域" @on-ok="doSelectArea" @on-visible-change="onVisibleChange" :transfer="false">
-        <al-selector v-model="select" data-type="code" level="2" />
-        <div> {{select}} </div>
+        <al-selector v-model="select" data-type="all" level="2" />
     </Modal>
 </template>
 
@@ -24,24 +23,25 @@ export default {
     },
     methods: {
         doSelectArea () {
-            this.$emit('submit', this.select)
+            if (this.select) {
+                this.$emit('submit', this.select)
+            }
         },
-        onVisibleChange () {
+        onVisibleChange (e) {
             this.$emit('update:open', this.isOpen)
         },
         convert (area) {
-            console.log(this.area)
-            this.select = [area.slice(0, 2) + '0000', area.slice(0, 4) + '00', area]
+            if (area) {
+                return [area.slice(0, 2) + '0000', area.slice(0, 4) + '00', area]
+            } else {
+                return []
+            }
         }
     },
     watch: {
-        open () { this.isOpen = this.open },
-        area () {
-            console.log(this.area)
-            this.select = []
-            this.select.push(this.area.slice(0, 2) + '0000')
-            this.select.push(this.area.slice(0, 4) + '00')
-            this.select.push(this.area)
+        open: function () { this.isOpen = this.open },
+        area: function () {
+            this.select = this.convert(this.area)
         }
     }
 }

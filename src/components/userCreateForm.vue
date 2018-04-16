@@ -19,8 +19,8 @@
                 <FormItem label="确认密码" prop="pwdRepeat">
                     <Input type="password" v-model="formData.pwdRepeat" placeholder="请再次输入密码"></Input>
                 </FormItem>
-                <FormItem label="手机号" prop="mobile">
-                    <Input v-model="formData.mobile" placeholder="">
+                <FormItem label="手机号" prop="phone">
+                    <Input v-model="formData.phone" placeholder="">
                     <span slot="prepend">中国 +86</span>
                     </Input>
                 </FormItem>
@@ -78,12 +78,12 @@ export default {
                 loginName: '',
                 password: '',
                 pwdRepeat: '',
-                mobile: '',
+                phone: '',
                 idCard: '',
                 feeRateStr: '',
                 feeRate: {},
                 areaName: '',
-                areaCode: '320102'
+                areaCode: ''
             },
             ruleValidate: {
                 name: [
@@ -105,7 +105,7 @@ export default {
                     { required: true, message: '请再次输入密码', trigger: 'blur' },
                     { validator: this.validatePwdRepeat, trigger: 'blur' }
                 ],
-                mobile: [
+                phone: [
                     { required: true, message: '请输入手机号', trigger: 'blur' },
                     { pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, message: '请输入正确的手机号', trigger: 'blur' }
                 ],
@@ -126,19 +126,25 @@ export default {
             let me = this
             this.$refs.createForm.validate((valid) => {
                 if (valid) {
-                    let data = this.formData
-                    this.$http.post('addAgent', {
-                        id: data.id,
-                        parentId: data.parentId,
-                        name: data.name,
-                        loginName: data.loginName,
-                        password: data.password,
-                        mobile: data.mobile,
-                        idCard: data.idCard,
-                        feeRate: JSON.stringify(data.feeRate)
+                    this.$http.post('/api/user/createUser', {
+                        parentId: this.formData.parentId,
+                        name: this.formData.name,
+                        loginName: this.formData.loginName,
+                        password: this.formData.password,
+                        phone: this.formData.phone,
+                        idCard: this.formData.idCard,
+                        feeRate: this.formData.feeRate,
+                        areaCode: this.formData.areaCode
                     }).then(function (response) {
-                        me.$Message.success('Success!')
-                        me.showForm = false
+                        me.$Message.success('新增代理成功!')
+                        me.loading = false
+                        me.$nextTick(() => { me.loading = true })
+                        me.isOpen = false
+                        me.$emit('success')
+                    }).catch(function () {
+                        me.loading = false
+                        me.$nextTick(() => { me.loading = true })
+                        this.$Message.error(arguments)
                     })
                 } else {
                     me.loading = false
@@ -148,17 +154,44 @@ export default {
             })
         },
         setParent (selected) {
-            this.formData.parentId = selected.value
-            this.formData.parentName = selected.title
+            if (selected) {
+                this.formData.parentId = selected.value
+                this.formData.parentName = selected.title
+                this.formData.feeRateStr = ''
+                this.formData.feeRate = {}
+            }
         },
-        setFeeRate () {
-
+        setFeeRate (data) {
+            this.formData.feeRateStr = ''
+            let desc = []
+            Object.values(data).forEach((value) => {
+                let text = ''
+                text += value.label + ': '
+                if (value.feeRate) {
+                    text += util.strip(value.value * 1000) + '‰'
+                } else {
+                    text += value.value + '元'
+                }
+                desc.push(text)
+            })
+            this.formData.feeRateStr = desc.join('，')
+            this.formData.feeRate = data
         },
         setAgentArea (select) {
-            this.formData.areaName = select[2].name
-            this.formData.areaCode = select[2].code
+            this.formData.areaName = ''
+            select.forEach((value) => {
+                this.formData.areaName += value.name
+                this.formData.areaCode = value.code
+            })
+        },
+        reset () {
+            this.$refs.createForm.resetFields()
+            this.formData.feeRate = {}
+            this.formData.parentId = ''
+            this.formData.areaCode = ''
         },
         onVisibleChange () {
+            this.reset()
             this.$emit('update:open', this.isOpen)
         },
         showSelectParentModal () {
@@ -171,15 +204,15 @@ export default {
             this.showAgentArea = true
         },
         validateLoginName (rule, value, callback) {
-            this.$http.get('checkLoginName', {
+            this.$http.get('/api/user/checkLoginNameExist', {
                 params: {
-                    loginName: value
+                    username: value
                 }
             }).then(function (response) {
-                if (response.data.success) {
-                    callback()
+                if (response.data) {
+                    callback(new Error('用户登录名已存在'))
                 } else {
-                    callback(new Error(response.data.message))
+                    callback()
                 }
             })
         },

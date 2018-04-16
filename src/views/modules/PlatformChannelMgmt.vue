@@ -1,6 +1,13 @@
 <template>
     <div id="grid">
-        <Alert show-icon>施工中，提供给平台使用的通道管理，用于修改用户费率，且隐藏通道的成本费率</Alert>
+        <Alert show-icon>施工中，提供给平台使用的通道管理，用于修改用户费率</Alert>
+        <Card>
+            <p slot="title">
+                <Icon type="settings"></Icon>
+                通道管理
+            </p>
+            <Table stripe border :loading="loading" :columns="columns" :data="data1"></Table>
+        </Card>
     </div>
 </template>
 
@@ -29,14 +36,6 @@ export default {
                 {
                     title: '高级用户代收费',
                     key: 'seniorFee'
-                },
-                {
-                    title: '平台费率',
-                    key: 'platformFeeRate'
-                },
-                {
-                    title: '平台代收费',
-                    key: 'platformFee'
                 },
                 {
                     title: '操作',
@@ -68,13 +67,9 @@ export default {
         init () {
             let me = this
             this.loading = true
-            this.$http.get('listChannels').then(function (response) {
+            this.$http.get('/api/channel/findAll').then(function (response) {
                 me.loading = false
-                if (response.data.success) {
-                    me.data1 = response.data.data
-                } else {
-                    me.$Message.error(response.data.message)
-                }
+                me.data1 = response.data
             })
         }
     },

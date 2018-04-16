@@ -19,7 +19,8 @@
             <Button @click="showAdvancedQuery" type="primary">高级查询</Button>
             <Table stripe border style="margin-top:10px" :loading="loading" :columns="columns" :data="gridData"></Table>
         </Card>
-        <user-create-form :open.sync="showForm"></user-create-form>
+        <user-create-form :open.sync="showCreateForm" @success="loadData"></user-create-form>
+        <user-modify-form :open.sync="showModifyForm" :userId="modifyUserId" @success="loadData"></user-modify-form>
     </div>
 </template>
 
@@ -37,7 +38,9 @@ export default {
             search: '',
             loading: false,
             formLoading: true,
-            showForm: false,
+            showCreateForm: false,
+            showModifyForm: false,
+            modifyUserId: '',
             columns: [
                 {
                     title: '姓名',
@@ -49,7 +52,7 @@ export default {
                 },
                 {
                     title: '手机号',
-                    key: 'mobile'
+                    key: 'phone'
                 },
                 {
                     title: '邀请码',
@@ -64,7 +67,7 @@ export default {
                     key: 'emergencyContact'
                 },
                 {
-                    title: '类型',
+                    title: '代理层级',
                     key: 'userType'
                 },
                 {
@@ -106,10 +109,11 @@ export default {
     },
     methods: {
         addAgent () {
-            this.showForm = true
+            this.showCreateForm = true
         },
         modify (id) {
-            this.showForm = true
+            this.modifyUserId = id
+            this.showModifyForm = true
         },
         renderNode (h, { root, node, data }) {
             return h('span', [
@@ -149,7 +153,7 @@ export default {
         loadData () {
             let me = this
             this.loading = true
-            this.$http.get('/api/user/findAll', {
+            this.$http.get('/api/user/findUsers', {
                 params: {
                     loginName: this.search
                 }

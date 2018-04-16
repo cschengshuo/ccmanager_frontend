@@ -5,7 +5,7 @@
                 <Icon type="settings"></Icon>
                 交易记录
             </p>
-            <Input v-model="search" icon="search" placeholder="登录名" style="width: 200px"></Input>
+            <Input v-model="search" icon="search" placeholder="交易卡号" style="width: 200px"></Input>
             <Button @click="query" type="primary">查询</Button>
             <Button @click="showAdvancedQuery" type="primary">高级查询</Button>
             <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data1"></Table>
@@ -35,7 +35,6 @@ export default {
                     title: '类型',
                     key: 'status',
                     render: (h, params) => {
-                        console.log(params)
                         let description = ''
                         const status = params.row.status
                         switch (status) {
@@ -85,7 +84,7 @@ export default {
                 },
                 {
                     title: '用户姓名',
-                    key: 'userId'
+                    key: 'userName'
                 }
             ],
             data1: []
@@ -93,29 +92,27 @@ export default {
     },
     methods: {
         query () {
-
+            this.loadData()
         },
         showAdvancedQuery () {
-
+            this.$Message.warning('高级查询功能暂未上线')
         },
         changePage (page) {
-            let me = this
-            this.loading = true
-            this.$http.get('/api/trading_record/findAll', {
-                params: {
-                    page: page - 1,
-                    size: this.size
-                }
-            }).then(function (response) {
-                me.loading = false
-                me.data1 = response.data.content
-                me.total = response.data.totalElements
-            })
+            this.loadData(page)
         },
-        init () {
+        loadData (page) {
+            let data = {
+                cardNo: this.search,
+                size: this.size
+            }
+
+            if (page) {
+                data.page = page - 1
+            }
+
             let me = this
             this.loading = true
-            this.$http.get('/api/trading_record/findAll').then(function (response) {
+            this.$http.get('/api/trading_record/findAll', { params: data }).then(function (response) {
                 me.loading = false
                 me.data1 = response.data.content
                 me.total = response.data.totalElements
@@ -123,7 +120,7 @@ export default {
         }
     },
     mounted () {
-        this.init()
+        this.loadData()
     }
 }
 </script>

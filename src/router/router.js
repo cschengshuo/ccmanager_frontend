@@ -27,6 +27,15 @@ const page500 = {
     component: () => import('@/views/error-page/500.vue')
 }
 
+const admin = {
+    path: '/personal_admin',
+    name: 'admin',
+    component: () => import('@/views/modules/Admin.vue'),
+    meta: {
+        title: '内部管理'
+    }
+}
+
 const login = {
     path: '/login',
     name: 'login',
@@ -124,35 +133,35 @@ export const appRouter = [
             }
         ]
     },
-    {
-        path: '/channel_mgmt',
-        icon: 'grid',
-        title: '通道管理',
-        name: 'channel_mgmt',
-        component: Main,
-        children: [
-            {
-                path: 'index',
-                icon: 'gear-b',
-                name: 'channel_mgmt_index',
-                title: '通道管理',
-                component: () => import('@/views/modules/ChannelMgmt.vue'),
-                meta: {
-                    title: '通道管理'
-                }
-            },
-            {
-                path: 'platform',
-                icon: 'gear-b',
-                name: 'platform_channel_mgmt_index',
-                title: '通道管理',
-                component: () => import('@/views/modules/PlatformChannelMgmt.vue'),
-                meta: {
-                    title: '通道管理'
-                }
-            }
-        ]
-    },
+    // {
+    //     path: '/channel_mgmt',
+    //     icon: 'grid',
+    //     title: '通道管理',
+    //     name: 'channel_mgmt',
+    //     component: Main,
+    //     children: [
+    //         {
+    //             path: 'index',
+    //             icon: 'gear-b',
+    //             name: 'channel_mgmt_index',
+    //             title: '通道管理（管理员）',
+    //             component: () => import('@/views/modules/ChannelMgmt.vue'),
+    //             meta: {
+    //                 title: '通道管理'
+    //             }
+    //         },
+    //         {
+    //             path: 'platform',
+    //             icon: 'gear-b',
+    //             name: 'platform_channel_mgmt_index',
+    //             title: '通道管理（平台）',
+    //             component: () => import('@/views/modules/PlatformChannelMgmt.vue'),
+    //             meta: {
+    //                 title: '通道管理'
+    //             }
+    //         }
+    //     ]
+    // },
     {
         path: '/income_mgmt',
         icon: 'card',
@@ -204,6 +213,7 @@ export const appRouter = [
 
 export const routers = [
     login,
+    admin,
     otherRouter,
     ...appRouter,
     page500,

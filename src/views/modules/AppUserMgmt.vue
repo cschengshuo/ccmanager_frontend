@@ -38,39 +38,6 @@ export default {
                 {
                     title: '身份证',
                     key: 'idnumber'
-                },
-                {
-                    title: '操作',
-                    key: 'action',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.modify(params.row.id)
-                                    }
-                                }
-                            }, '修改'),
-                            h('Button', {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.remove(params.row.id)
-                                    }
-                                }
-                            }, '删除')
-                        ])
-                    }
                 }
             ],
             gridData: []

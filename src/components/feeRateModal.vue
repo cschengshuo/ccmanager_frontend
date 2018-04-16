@@ -1,8 +1,9 @@
 <template>
     <Modal v-model="isOpen" class-name="vertical-center-modal" :mask-closable="false" title="设置费率" @on-ok="doSetFeeRate" @on-visible-change="onVisibleChange" :transfer="false">
-        <Form ref="feeRateForm" :model="formData" :label-width="80">
-            <FormItem v-for="(item, index) in feeRateItems" v-if="item.status" :key="index" :label="item.label" :prop="item.index " :rules="{required: true, message: '请设置' + item.label + '的费率', trigger: 'blur'}">
-                <Slider v-model="item.value" :max="item.max" :min="item.min" :step="item.step" :tip-format="tipFormat" show-input></Slider>
+        <Form ref="feeRateForm" :model="formData" :label-width="120">
+            <FormItem v-for="(item, index) in feeRateItems" :key="index" :label="item.label" :prop="item.index + '' ">
+                <Slider v-model="formData[item.index].value" v-if="item.status" :max="item.max" :min="item.min" :step="item.step" :tip-format="item.tipFormat" show-tip="always" show-stops></Slider>
+                <span v-if="!item.status">由于上级代理此项为零，该项无法调整</span>
             </FormItem>
         </Form>
     </Modal>
@@ -27,11 +28,7 @@ export default {
     data () {
         return {
             isOpen: this.open,
-            formData: {
-                PLAN: 0,
-                C: 0,
-                D: 0
-            },
+            formData: {},
             feeRateItems: []
         }
     },
@@ -45,11 +42,33 @@ export default {
                     parentId: parentId
                 }
             }).then((response) => {
-                console.log('1')
+                response.data.forEach((value) => {
+                    this.formData[value.index] = {
+                        value: value.value,
+                        label: value.label,
+                        index: value.index,
+                        feeRate: value.feeRate
+                    }
+
+                    if (value.max <= value.min) {
+                        value.status = false
+                    } else {
+                        value.status = true
+                    }
+                    if (value.feeRate) {
+                        value.tipFormat = this.feeRateFormat
+                    } else {
+                        value.tipFormat = this.feeFormat
+                    }
+                })
+                this.feeRateItems = response.data
             })
         },
-        tipFormat (val) {
+        feeRateFormat (val) {
             return util.strip(val * 1000) + '‰'
+        },
+        feeFormat (val) {
+            return val + '元'
         },
         onVisibleChange () {
             this.$emit('update:open', this.isOpen)
@@ -60,7 +79,18 @@ export default {
     },
     watch: {
         open () { this.isOpen = this.open },
-        parentId () { this.loadChannelInfo(this.parentId) }
+        parentId () { this.loadChannelInfo(this.parentId) },
+        feeRate () {
+            if (Object.keys(this.feeRate).length !== 0) {
+                Object.values(this.feeRate).forEach((value) => {
+                    this.formData[value.index].value = value.value
+                })
+            } else {
+                Object.values(this.formData).forEach((value) => {
+                    value.value = 0
+                })
+            }
+        }
     }
 }
 </script>
