@@ -115,31 +115,11 @@ export default {
             this.modifyUserId = id
             this.showModifyForm = true
         },
-        renderNode (h, { root, node, data }) {
-            return h('span', [
-                h('Icon', {
-                    props: {
-                        type: 'document-text'
-                    },
-                    style: {
-                        marginRight: '8px'
-                    }
-                }),
-                h('span', data.title)
-            ])
-        },
-        doSelectParent () {
-            let selected = this.$refs.userTree.getSelectedNodes()
-            if (selected[0]) {
-                this.formData.parentId = selected[0].value
-                this.formData.parentName = selected[0].title
-            }
-        },
         auditAddAgent () {
-            this.$Message.warning('审核新增代理功能暂未上线')
+            this.$Message.warning('审核新增代理申请功能暂未上线')
         },
         auditDeleteAgent () {
-            this.$Message.warning('审核删除代理功能暂未上线')
+            this.$Message.warning('审核删除代理申请功能暂未上线')
         },
         query () {
             this.loadData()
@@ -161,18 +141,6 @@ export default {
                 me.loading = false
                 me.gridData = response.data
             })
-        },
-        onSelectChange (selected) {
-
-        }
-    },
-    watch: {
-        feeRate: function (val, oldVal) {
-            let literal = ''
-            val.forEach(element => {
-                literal += element.label + ': ' + element.value
-            })
-            this.feeRateStr = literal
         }
     },
     mounted () {

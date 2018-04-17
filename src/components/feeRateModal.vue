@@ -84,6 +84,7 @@ export default {
             if (Object.keys(this.feeRate).length !== 0) {
                 Object.values(this.feeRate).forEach((value) => {
                     this.formData[value.index].value = value.value
+                    this.$emit('submit', this.formData)
                 })
             } else {
                 Object.values(this.formData).forEach((value) => {

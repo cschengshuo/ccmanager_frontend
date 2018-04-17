@@ -2,11 +2,11 @@
     <div>
         <Modal v-model="isOpen" class-name="vertical-center-modal" :loading="loading" :mask-closable="false" title="修改代理" @on-ok="submit" @on-visible-change="onVisibleChange" @on-hidden="onHidden" :transfer="false">
             <Form ref="modifyForm" :model="formData" :rules="ruleValidate" :label-width="80">
-                <FormItem label="上级代理" prop="parentName">
+                <!-- <FormItem label="上级代理" prop="parentName">
                     <Input readonly v-model="formData.parentName" placeholder="点击按钮选择上级代理，未选择时默认为当前用户">
                     <Button slot="append" @click="showSelectParentModal" icon="arrow-down-b"></Button>
                     </Input>
-                </FormItem>
+                </FormItem> -->
                 <FormItem label="姓名" prop="name">
                     <Input v-model="formData.name" placeholder="用户的真实姓名"></Input>
                 </FormItem>
@@ -33,7 +33,7 @@
                 </FormItem>
             </Form>
         </Modal>
-        <user-tree-modal :open.sync="showSelectParent" :parentId="formData.parentId" @submit="setParent"></user-tree-modal>
+        <!-- <user-tree-modal :open.sync="showSelectParent" :parentId="formData.parentId" @submit="setParent"></user-tree-modal> -->
         <fee-rate-modal :open.sync="showSetFeeRate" :feeRate="formData.feeRate" :parentId="formData.parentId" @submit="setFeeRate"></fee-rate-modal>
         <area-modal :open.sync="showAgentArea" :area="formData.areaCode" @submit="setAgentArea"></area-modal>
     </div>
@@ -41,7 +41,7 @@
 
 <script>
 import util from '../libs/util'
-import userTreeModal from '@/components/userTreeModal.vue'
+// import userTreeModal from '@/components/userTreeModal.vue'
 import feeRateModal from '@/components/feeRateModal.vue'
 import areaModal from '@/components/areaModal.vue'
 
@@ -56,7 +56,7 @@ export default {
         }
     },
     components: {
-        userTreeModal,
+        // userTreeModal,
         feeRateModal,
         areaModal
     },
@@ -108,7 +108,8 @@ export default {
             this.$refs.modifyForm.validate((valid) => {
                 if (valid) {
                     this.$http.post('/api/user/modifyUser', {
-                        parentId: this.formData.parentId,
+                        // parentId: this.formData.parentId,
+                        id: this.formData.id,
                         name: this.formData.name,
                         password: this.formData.password,
                         phone: this.formData.phone,
@@ -116,8 +117,11 @@ export default {
                         feeRate: this.formData.feeRate,
                         areaCode: this.formData.areaCode
                     }).then(function (response) {
-                        me.$Message.success('Success!')
-                        me.showForm = false
+                        me.$Message.success('新增代理成功!')
+                        me.loading = false
+                        me.$nextTick(() => { me.loading = true })
+                        me.isOpen = false
+                        me.$emit('success')
                     }).catch(function () {
                         me.loading = false
                         me.$nextTick(() => { me.loading = true })
@@ -130,14 +134,14 @@ export default {
                 }
             })
         },
-        setParent (selected) {
-            if (selected) {
-                this.formData.parentId = selected.value
-                this.formData.parentName = selected.title
-                this.formData.feeRateStr = ''
-                this.formData.feeRate = {}
-            }
-        },
+        // setParent (selected) {
+        //     if (selected) {
+        //         this.formData.parentId = selected.value
+        //         this.formData.parentName = selected.title
+        //         this.formData.feeRateStr = ''
+        //         this.formData.feeRate = {}
+        //     }
+        // },
         setFeeRate (data) {
             this.formData.feeRateStr = ''
             let desc = []
@@ -211,16 +215,13 @@ export default {
                 .then(function (response) {
                     const data = response.data
                     me.formData.id = data.id
-                    me.formData.parentId = data.parentId
                     me.formData.areaCode = data.areaCode
                     me.formData.loginName = data.loginName
                     me.formData.name = data.name
                     me.formData.feeRate = data.feeRate
                     me.formData.idCard = data.identityCard
                     me.formData.phone = data.phone
-
-                    me.formData.parentName = data.parentName
-                    me.formData.feeRateStr = data.feeRateStr
+                    me.formData.parentName = data.parentId
                 })
         }
     }

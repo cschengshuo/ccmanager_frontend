@@ -71,7 +71,7 @@ export default {
                         .then(function (response) {
                             const data = response.data
                             me.$store.commit('login', data)
-                            me.$router.push('/')
+                            me.$router.push('/agent_mgmt')
                         })
                 }
             })

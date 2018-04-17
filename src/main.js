@@ -35,6 +35,18 @@ axios.interceptors.response.use(response => {
                 router.replace({
                     path: '/login'
                 })
+                break
+
+            case 403:
+                router.replace({
+                    path: '/403'
+                })
+                break
+
+            case 500:
+                router.replace({
+                    path: '/500'
+                })
         }
     }
     return Promise.reject(error)
