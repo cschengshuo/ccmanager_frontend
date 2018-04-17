@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import util from '../libs/util'
+// import util from '../libs/util'
 import { appRouter } from '@/router/router'
 
 Vue.use(Vuex)
@@ -19,6 +19,7 @@ export default new Vuex.Store({
             sessionStorage.setItem('jwt', data.jwt)
             state.user = data.user
             state.initialized = true
+            this.commit('updateMenulist')
         },
         logout (state) {
             sessionStorage.removeItem('user')
@@ -29,11 +30,13 @@ export default new Vuex.Store({
             state.initialized = true
         },
         updateMenulist (state) {
-            let accessCode = 1
+            console.log(state.user.roles[0].role)
+
+            let userRole = state.user.roles[0].role
             let menuList = []
             appRouter.forEach((item, index) => {
                 if (item.access !== undefined) {
-                    if (util.showThisRoute(item.access, accessCode)) {
+                    if (item.access.indexOf(userRole) >= 0) {
                         if (item.children.length === 1) {
                             menuList.push(item)
                         } else {
@@ -41,7 +44,7 @@ export default new Vuex.Store({
                             let childrenArr = []
                             childrenArr = item.children.filter(child => {
                                 if (child.access !== undefined) {
-                                    if (child.access === accessCode) {
+                                    if (child.access.indexOf(userRole) >= 0) {
                                         return child
                                     }
                                 } else {
@@ -59,7 +62,7 @@ export default new Vuex.Store({
                         let childrenArr = []
                         childrenArr = item.children.filter(child => {
                             if (child.access !== undefined) {
-                                if (util.showThisRoute(child.access, accessCode)) {
+                                if (child.access.indexOf(userRole) >= 0) {
                                     return child
                                 }
                             } else {
@@ -85,6 +88,7 @@ export default new Vuex.Store({
             axios.get('/api/user/getCurrentUserInfo')
                 .then(function (response) {
                     me.commit('setUserInfo', response.data)
+                    me.commit('updateMenulist')
                 })
         }
     }

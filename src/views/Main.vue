@@ -9,7 +9,7 @@
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
-
+                    <span>管理系统</span>
                 </div>
                 <div class="header-avator-con">
                     <message-tip v-model="msgCount"></message-tip>
@@ -56,7 +56,6 @@ export default {
     },
     methods: {
         init () {
-            this.$store.commit('updateMenulist')
         },
         toggleClick () {
             this.shrink = !this.shrink

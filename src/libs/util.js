@@ -1,16 +1,16 @@
 const title = function (title) {
-    title = title || '管理系统'
+    title = title || '卡管家管理系统'
     document.title = title
 }
 
 const inOf = function (arr, targetArr) {
-    let res = true
+    let result = true
     arr.forEach(item => {
         if (targetArr.indexOf(item) < 0) {
-            res = false
+            result = false
         }
     })
-    return res
+    return result
 }
 
 const oneOf = function (ele, targetArr) {
@@ -225,13 +225,6 @@ const toDefaultPage = function (routers, name, route, next) {
     }
 }
 
-const fullscreenEvent = function (vm) {
-    vm.$store.commit('initCachepage')
-    // 权限菜单过滤相关
-    vm.$store.commit('updateMenulist')
-    // 全屏相关
-}
-
 const checkCard = (code) => {
     let city = {
         11: '北京',
@@ -311,6 +304,6 @@ const strip = (num, precision = 12) => {
     return +parseFloat(num.toPrecision(precision))
 }
 
-const util = { checkCard, fullscreenEvent, title, inOf, oneOf, showThisRoute, getRouterObjByName, handleTitle, setCurrentPath, toDefaultPage, openNewPage, strip }
+const util = { checkCard, title, inOf, oneOf, showThisRoute, getRouterObjByName, handleTitle, setCurrentPath, toDefaultPage, openNewPage, strip }
 
 export default util

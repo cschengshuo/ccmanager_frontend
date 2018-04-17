@@ -133,35 +133,38 @@ export const appRouter = [
             }
         ]
     },
-    // {
-    //     path: '/channel_mgmt',
-    //     icon: 'grid',
-    //     title: '通道管理',
-    //     name: 'channel_mgmt',
-    //     component: Main,
-    //     children: [
-    //         {
-    //             path: 'index',
-    //             icon: 'gear-b',
-    //             name: 'channel_mgmt_index',
-    //             title: '通道管理（管理员）',
-    //             component: () => import('@/views/modules/ChannelMgmt.vue'),
-    //             meta: {
-    //                 title: '通道管理'
-    //             }
-    //         },
-    //         {
-    //             path: 'platform',
-    //             icon: 'gear-b',
-    //             name: 'platform_channel_mgmt_index',
-    //             title: '通道管理（平台）',
-    //             component: () => import('@/views/modules/PlatformChannelMgmt.vue'),
-    //             meta: {
-    //                 title: '通道管理'
-    //             }
-    //         }
-    //     ]
-    // },
+    {
+        path: '/channel_mgmt',
+        icon: 'grid',
+        title: '通道管理',
+        name: 'channel_mgmt',
+        access: ['ADMIN', 'PLATFORM'],
+        component: Main,
+        children: [
+            {
+                path: 'index',
+                icon: 'gear-b',
+                name: 'channel_mgmt_index',
+                title: '通道管理',
+                access: ['ADMIN'],
+                component: () => import('@/views/modules/ChannelMgmt.vue'),
+                meta: {
+                    title: '通道管理'
+                }
+            },
+            {
+                path: 'platform',
+                icon: 'gear-b',
+                name: 'platform_channel_mgmt_index',
+                title: '通道管理',
+                access: ['PLATFORM'],
+                component: () => import('@/views/modules/PlatformChannelMgmt.vue'),
+                meta: {
+                    title: '通道管理'
+                }
+            }
+        ]
+    },
     {
         path: '/income_mgmt',
         icon: 'card',
