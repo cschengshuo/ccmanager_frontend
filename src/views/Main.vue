@@ -9,6 +9,7 @@
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
+
                 </div>
                 <div class="header-avator-con">
                     <message-tip v-model="msgCount"></message-tip>
