@@ -85,7 +85,7 @@ export default {
         init () {
             let me = this
             this.loading = true
-            this.$http.get('/api/channel/findAll').then(function (response) {
+            this.$http.get('/api/channel/findAllForAdmin').then(function (response) {
                 me.loading = false
                 me.data1 = response.data
             })

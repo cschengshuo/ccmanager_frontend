@@ -48,7 +48,7 @@ export default {
                 },
                 {
                     title: '登录名',
-                    key: 'loginName'
+                    key: 'username'
                 },
                 {
                     title: '手机号',
