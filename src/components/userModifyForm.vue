@@ -10,8 +10,8 @@
                 <FormItem label="姓名" prop="name">
                     <Input v-model="formData.name" placeholder="用户的真实姓名"></Input>
                 </FormItem>
-                <FormItem label="登录名" prop="loginName">
-                    <span>{{ formData.loginName }}</span>
+                <FormItem label="登录名" prop="username">
+                    <span>{{ formData.username }}</span>
                 </FormItem>
                 <FormItem label="手机号" prop="phone">
                     <Input v-model="formData.phone" placeholder="">
@@ -72,7 +72,7 @@ export default {
                 parentName: '',
                 parentId: '',
                 name: '',
-                loginName: '',
+                username: '',
                 password: '',
                 phone: '',
                 idCard: '',
@@ -216,7 +216,7 @@ export default {
                     const data = response.data
                     me.formData.id = data.id
                     me.formData.areaCode = data.areaCode
-                    me.formData.loginName = data.loginName
+                    me.formData.username = data.username
                     me.formData.name = data.name
                     me.formData.feeRate = data.feeRate
                     me.formData.idCard = data.identityCard

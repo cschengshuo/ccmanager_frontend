@@ -8,7 +8,7 @@
             <div>
                 <Form ref="userForm" :model="userForm" :label-width="100" label-position="right" :rules="infoValidate">
                     <FormItem label="登录名：">
-                        <span>{{ userForm.loginName }}</span>
+                        <span>{{ userForm.username }}</span>
                     </FormItem>
                     <FormItem label="用户姓名：" prop="name">
                         <Input v-model="userForm.name"></Input>
@@ -60,7 +60,7 @@ export default {
         return {
             userForm: {
                 id: '',
-                loginName: '',
+                username: '',
                 name: '',
                 idCard: '',
                 inviteCode: '',
@@ -147,7 +147,7 @@ export default {
                 .then(function (response) {
                     const data = response.data
                     me.userForm.id = data.id
-                    me.userForm.loginName = data.loginName
+                    me.userForm.username = data.username
                     me.userForm.name = data.name
                     me.userForm.idCard = data.identityCard
                     me.userForm.phone = data.phone

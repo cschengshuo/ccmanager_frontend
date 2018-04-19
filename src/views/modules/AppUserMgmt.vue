@@ -1,10 +1,17 @@
 <template>
     <div>
-        <Layout :style="{minHeight: '100vh'}">
-            <Sider :style="{background: '#fff'}">
-                <user-tree :onSelectChange="onSelectChange"></user-tree>
+        <Layout :style="{minHeight: '80vh'}">
+            <Sider :style="{background: '#F0F0F0'}">
+                <Card>
+                    <user-tree :onSelectChange="onSelectChange"></user-tree>
+                </Card>
             </Sider>
-            <Table stripe border style="margin-top:10px" :loading="loading" :columns="columns" :data="gridData"></Table>
+            <Content :style="{background: '#F0F0F0'}">
+                <Card>
+                    <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="gridData"></Table>
+                    <Page :total="total" :page-size="size" @on-change="changePage" show-total></Page>
+                </Card>
+            </Content>
         </Layout>
     </div>
 </template>
@@ -21,7 +28,7 @@ export default {
             columns: [
                 {
                     title: '邀请人',
-                    key: 'agentId'
+                    key: 'agentName'
                 },
                 {
                     title: '姓名',
@@ -37,10 +44,27 @@ export default {
                 },
                 {
                     title: '身份证',
-                    key: 'idnumber'
+                    key: 'iDNumber'
+                },
+                {
+                    title: '注册时间',
+                    key: 'registerTime'
+                },
+                {
+                    title: '高级用户',
+                    key: 'seniorUser',
+                    render: (h, params) => {
+                        if (params.row.seniorUser) {
+                            return h('span', '是')
+                        } else {
+                            return h('span', '否')
+                        }
+                    }
                 }
             ],
-            gridData: []
+            gridData: [],
+            total: 0,
+            size: 20
         }
     },
     methods: {
@@ -50,16 +74,26 @@ export default {
         remove (id) {
             this.$Message.warning('删除手机用户功能暂未上线')
         },
-        loadData (id) {
+        changePage (page) {
+            this.loadData('', page)
+        },
+        loadData (id, page) {
             let me = this
             this.loading = true
-            this.$http.get('/api/app_user/findAppUsersByAgentId', {
-                params: {
-                    agentId: id
-                }
-            }).then(function (response) {
+
+            let data = {
+                agentId: id,
+                size: this.size
+            }
+
+            if (page) {
+                data.page = page - 1
+            }
+
+            this.$http.get('/api/app_user/findAppUsersByAgentId', { params: data }).then(function (response) {
                 me.loading = false
-                me.gridData = response.data
+                me.gridData = response.data.content
+                me.total = response.data.totalElements
             })
         },
         onSelectChange (e) {

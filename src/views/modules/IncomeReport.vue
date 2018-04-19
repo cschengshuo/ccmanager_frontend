@@ -10,7 +10,7 @@
                     <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
                 <Date-Picker v-model="reportDateRange" v-if="showDateRange" type="daterange" placement="bottom-start" placeholder="选择时间范围" style="width: 200px"></Date-Picker>
-                <Button @click="getIncomeReport" type="primary">查看</Button>
+                <Button @click="getIncomeReport" :loading="loading" type="primary">查看</Button>
             </Row>
             <Row>
                 <Table style="margin-top:10px" stripe border :loading="loading" :columns="columns" :data="data1"></Table>
@@ -76,16 +76,6 @@ export default {
         }
     },
     methods: {
-        shuffleTab (value) {
-            switch (value) {
-                case 'income':
-                    this.getIncomeReport()
-                    break
-
-                default:
-                    break
-            }
-        },
         getIncomeReport () {
             let me = this
             this.loading = true
@@ -102,7 +92,7 @@ export default {
             })
         },
         init () {
-
+            this.getIncomeReport()
         }
     },
     watch: {
