@@ -47,27 +47,23 @@ export default {
                     key: 'channelName'
                 },
                 {
-                    title: '名下用户交易金额',
-                    key: 'amount'
-                },
-                {
                     title: '收益',
                     key: 'income'
                 },
                 {
+                    title: '名下用户交易量',
+                    key: 'selfAmount'
+                },
+                {
                     title: '名下用户交易收益',
-                    key: 'incomeFromUser'
+                    key: 'selfIncome'
                 },
                 {
-                    title: '下属代理带来收益',
-                    key: 'incomeFromSub'
-                },
-                {
-                    title: '下属代理交易金额',
+                    title: '下属代理交易量',
                     key: 'subAmount'
                 },
                 {
-                    title: '下属代理收益总额',
+                    title: '下属代理带来收益',
                     key: 'subIncome'
                 }
             ],
@@ -93,19 +89,14 @@ export default {
         getIncomeReport () {
             let me = this
             this.loading = true
-            this.$http.get('/api/report/list', {
+            this.$http.get('/api/report/getReport', {
                 params: {
                     type: this.incomeReportType,
                     start: this.reportDateRange[0],
                     end: this.reportDateRange[1]
                 }
             }).then(function (response) {
-                if (response.data.success) {
-                    me.data1 = response.data.data
-                } else {
-                    me.data1 = []
-                    me.$Message.error(response.data.message)
-                }
+                me.data1 = response.data
             }).then(function () {
                 me.loading = false
             })
