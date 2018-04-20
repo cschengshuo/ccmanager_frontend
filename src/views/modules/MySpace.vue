@@ -7,8 +7,8 @@
             </p>
             <div>
                 <Form ref="userForm" :model="userForm" :label-width="100" label-position="right" :rules="infoValidate">
-                    <FormItem label="登录名：">
-                        <span>{{ userForm.loginName }}</span>
+                    <FormItem label="登录名：" prop="loginName">
+                        <Input v-model="userForm.loginName"></Input>
                     </FormItem>
                     <FormItem label="用户姓名：" prop="name">
                         <Input v-model="userForm.name"></Input>
@@ -34,8 +34,8 @@
         </Card>
         <Modal v-model="editPasswordModal" title="修改密码" :closable='false' :mask-closable=false :width="500">
             <Form ref="editPasswordForm" :model="editPasswordForm" :label-width="100" label-position="right" :rules="passwordValidate">
-                <FormItem label="原密码" prop="oldPass">
-                    <Input v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码"></Input>
+                <FormItem label="原密码" prop="oldPassword">
+                    <Input v-model="editPasswordForm.oldPassword" placeholder="请输入现在使用的密码"></Input>
                 </FormItem>
                 <FormItem label="新密码" prop="password">
                     <Input v-model="editPasswordForm.password" placeholder="请输入新密码，至少6位字符"></Input>
@@ -83,12 +83,12 @@ export default {
                 ]
             },
             editPasswordForm: {
-                oldPass: '',
+                oldPassword: '',
                 password: '',
                 pwdRepeat: ''
             },
             passwordValidate: {
-                oldPass: [
+                oldPassword: [
                     { required: true, message: '请输入原密码', trigger: 'blur' }
                 ],
                 password: [
@@ -112,20 +112,31 @@ export default {
             })
         },
         saveEdit () {
+            let me = this
             this.$refs.userForm.validate((valid) => {
                 if (valid) {
                     if (this.phoneHasChanged && this.userForm.cellphone !== this.initPhone) { // 手机号码修改过了而且修改之后的手机号和原来的不一样
-                        if (this.hasGetIdentifyCode) { // 判断是否点了获取验证码
-                            if (this.identifyCodeRight) { // 判断验证码是否正确
-                                this.saveInfoAjax()
-                            } else {
-                                this.$Message.error('验证码错误，请重新输入')
-                            }
-                        } else {
-                            this.$Message.warning('请先点击获取验证码')
-                        }
+                        this.$http.post('/api/user/modifyMySpace', {
+                            id: this.userForm.id,
+                            username: this.userForm.loginName,
+                            name: this.userForm.name,
+                            phone: this.userForm.phone,
+                            identityCard: this.userForm.idCard
+                        }).then(function (response) {
+                            me.$Message.success('修改成功!')
+                            me.loading = false
+                            me.$nextTick(() => { me.loading = true })
+                            me.isOpen = false
+                            me.$emit('success')
+                        }).catch(function () {
+                            me.loading = false
+                            me.$nextTick(() => { me.loading = true })
+                            this.$Message.error(arguments)
+                        })
                     } else {
-                        this.saveInfoAjax()
+                        me.loading = false
+                        me.$nextTick(() => { me.loading = true })
+                        this.$Message.error('修改信息有误!')
                     }
                 }
             })
@@ -134,10 +145,28 @@ export default {
             this.editPasswordModal = false
         },
         saveEditPass () {
+            let me = this
             this.$refs.editPasswordForm.validate((valid) => {
                 if (valid) {
-                    this.savePassLoading = true
-                    // you can write ajax request here
+                    this.$http.post('/api/user/modifyPassword', {
+                        oldPassword: this.editPasswordForm.oldPassword,
+                        password: this.editPasswordForm.password,
+                        pwdRepeat: this.editPasswordForm.pwdRepeat
+                    }).then(function (response) {
+                        me.$$Message.success('修改成功!')
+                        me.loading = false
+                        me.$nextTick(() => { me.loading = true })
+                        me.isOpen = false
+                        me.$emit('success')
+                    }).catch(function () {
+                        me.loading = false
+                        me.$nextTick(() => { me.loading = true })
+                        this.$Message.error(arguments)
+                    })
+                } else {
+                    me.loading = false
+                    me.$nextTick(() => { me.loading = true })
+                    this.$Message.error('密码修改有误!')
                 }
             })
         },
@@ -147,7 +176,7 @@ export default {
                 .then(function (response) {
                     const data = response.data
                     me.userForm.id = data.id
-                    me.userForm.loginName = data.loginName
+                    me.userForm.loginName = data.username
                     me.userForm.name = data.name
                     me.userForm.idCard = data.identityCard
                     me.userForm.phone = data.phone
