@@ -7,16 +7,16 @@
             </p>
             <Row :gutter="16">
                 <Col span="6">
-                <infor-card :end-val="recharge" icon-type="person-add" color="#2d8cf0" intro-text="平台充值总额"></infor-card>
+                <infor-card id-name="recharge" :end-val="recharge" icon-type="person-add" color="#2d8cf0" intro-text="平台充值总额"></infor-card>
                 </Col>
                 <Col span="6">
-                <infor-card :end-val="withdraw" icon-type="person-stalker" color="#64d572" :icon-size="50" intro-text="用户已提现金额"></infor-card>
+                <infor-card id-name="withdraw" :end-val="withdraw" icon-type="person-stalker" color="#64d572" :icon-size="50" intro-text="用户已提现金额"></infor-card>
                 </Col>
                 <Col span="6">
-                <infor-card :end-val="balance" icon-type="planet" color="#ffd572" intro-text="平台余额"></infor-card>
+                <infor-card id-name="balance" :end-val="balance" icon-type="planet" color="#ffd572" intro-text="平台余额"></infor-card>
                 </Col>
                 <Col span="6">
-                <infor-card :end-val="toWithDraw" icon-type="planet" color="#ffd572" intro-text="用户待提现金额"></infor-card>
+                <infor-card id-name="toWithDraw" :end-val="toWithDraw" icon-type="planet" color="#ffd572" intro-text="用户待提现金额"></infor-card>
                 </Col>
             </Row>
         </Card>
@@ -104,10 +104,10 @@ export default {
                         let description = ''
                         const type = params.row.type
                         switch (type) {
-                            case 0:
+                            case '0':
                                 description = '提现'
                                 break
-                            case 1:
+                            case '1':
                                 description = '充值'
                                 break
                             default:
@@ -171,13 +171,13 @@ export default {
         },
         loadRecharge () {
             const me = this
-            this.$http.get('/api/app_user/getAppUserWithdrawSum').then(function (response) {
+            this.$http.get('').then(function (response) {
                 me.recharge = response.data
             })
         },
         loadWithdraw () {
             const me = this
-            this.$http.get('/api/').then(function (response) {
+            this.$http.get('/api/app_user/getAppUserHasWithdrawedSum').then(function (response) {
                 me.withdraw = response.data
             })
         },
@@ -189,13 +189,14 @@ export default {
         },
         loadToWithDraw () {
             const me = this
-            this.$http.get('/api/').then(function (response) {
+            this.$http.get('/api/app_user/getAppUserWithdrawSum').then(function (response) {
                 me.toWithDraw = response.data
             })
         },
         init () {
             this.loadData()
-            this.loadRecharge()
+            this.loadToWithDraw()
+            this.loadWithdraw()
         }
     },
     mounted () {

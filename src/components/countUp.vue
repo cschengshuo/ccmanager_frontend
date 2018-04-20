@@ -67,18 +67,23 @@ export default {
     mounted () {
         this.$nextTick(() => {
             setTimeout(() => {
-                let demo = {}
-                this.demo = demo = new CountUp(this.idName, this.startVal, this.endVal, this.decimals, this.duration, this.options)
+                let demo = new CountUp(this.idName, this.startVal, this.endVal, this.decimals, this.duration, this.options)
                 if (!demo.error) {
                     demo.start()
+                } else {
+                    console.error(demo.error)
                 }
+
+                this.demo = demo
             }, this.delay)
         })
     },
     watch: {
         endVal (val) {
-            let endVal = this.endVal
-            this.demo.update(endVal)
+            let endVal = val
+            if (this.demo) {
+                this.demo.update(endVal)
+            }
         }
     }
 }

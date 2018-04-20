@@ -130,10 +130,10 @@ export default {
                         let description = ''
                         const type = params.row.type
                         switch (type) {
-                            case 0:
+                            case '0':
                                 description = '提现'
                                 break
-                            case 1:
+                            case '1':
                                 description = '充值'
                                 break
                             default:
