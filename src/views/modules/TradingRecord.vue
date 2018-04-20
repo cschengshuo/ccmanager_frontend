@@ -7,6 +7,12 @@
             </p>
             <Input v-model="search" icon="search" placeholder="交易卡号" style="width: 200px"></Input>
             <Input v-model="search1" icon="search" placeholder="登录名" style="width: 200px"></Input>
+            <Select v-model="statusReportType" style="width: 100px">
+                <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <Select v-model="payWayTAGReportType" style="width: 100px">
+                <Option v-for="item in typeList1" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
             <date-picker v-model="recordDateRange" type="daterange" confirm placement="bottom-end" placeholder="选择时间范围" style="width: 200px"></date-picker>
             <Button @click="query" type="primary">查询</Button>
             <Button @click="showAdvancedQuery" type="primary">高级查询</Button>
@@ -22,10 +28,36 @@ export default {
         return {
             search: '',
             search1: '',
+            statusReportType: 1,
+            payWayTAGReportType: 1,
             recordDateRange: [null, null],
             loading: false,
             total: 0,
             size: 20,
+            typeList: [
+                {
+                    value: 1,
+                    label: '计划转账'
+                },
+                {
+                    value: 2,
+                    label: '提现转账'
+                },
+                {
+                    value: 3,
+                    label: '认证'
+                }
+            ],
+            typeList1: [
+                {
+                    value: 1,
+                    label: '提现'
+                },
+                {
+                    value: 2,
+                    label: '转账'
+                }
+            ],
             columns: [
                 {
                     title: '转账金额',
@@ -155,6 +187,8 @@ export default {
                 params: {
                     cardNo: this.search,
                     userName: this.search1,
+                    payWayTAG: this.payWayTAGReportType,
+                    status: this.statusReportType,
                     start: this.recordDateRange[0],
                     end: this.recordDateRange[1]
                 }
