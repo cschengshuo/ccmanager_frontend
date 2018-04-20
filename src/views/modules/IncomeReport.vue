@@ -3,7 +3,7 @@
         <Card style="margin-bottom:200px">
             <p slot="title">
                 <Icon type="settings"></Icon>
-                个人收益详情
+                收益报表
             </p>
             <Row>
                 <Select v-model="incomeReportType" style="width: 100px">

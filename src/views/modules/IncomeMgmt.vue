@@ -3,7 +3,7 @@
         <Card style="width: 50%">
             <p slot="title">
                 <Icon type="person-add"></Icon>
-                平台用户发展
+                个人收益详情
             </p>
             <Row :gutter="5">
                 <Col :xs="24" :sm="12" :md="12" :style="{marginBottom: '10px'}">

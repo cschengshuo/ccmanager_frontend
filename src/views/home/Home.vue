@@ -5,7 +5,7 @@
                 <Icon type="person-add"></Icon>
                 平台用户发展
             </p>
-            <Row :gutter="5">
+            <Row :gutter="16">
                 <Col :xs="24" :sm="12" :md="8" :style="{marginBottom: '10px'}">
                 <infor-card id-name="user_created_count" :end-val="count.createUser" icon-type="person-add" color="#2d8cf0" intro-text="今日新增用户"></infor-card>
                 </Col>

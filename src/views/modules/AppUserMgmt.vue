@@ -51,6 +51,10 @@ export default {
                     key: 'registerTime'
                 },
                 {
+                    title: '账户余额',
+                    key: 'canbalance'
+                },
+                {
                     title: '高级用户',
                     key: 'seniorUser',
                     render: (h, params) => {

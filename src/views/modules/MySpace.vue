@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @keydown.enter="saveEditPass">
         <Card style="width:500px">
             <p slot="title">
                 <Icon type="person"></Icon>
@@ -26,28 +26,24 @@
                         <Button type="text" size="small" @click="showEditPassword">修改密码</Button>
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" :loading="save_loading" @click="saveEdit">保存</Button>
+                        <Button type="primary" :loading="saveLoading" @click="saveEdit">保存</Button>
                         <Button type="text" @click="cancelEditUserInfor">取消</Button>
                     </FormItem>
                 </Form>
             </div>
         </Card>
-        <Modal v-model="editPasswordModal" title="修改密码" :closable='false' :mask-closable=false :width="500">
+        <Modal v-model="editPasswordModal" class-name="vertical-center-modal" :loading="formLoading" title="修改密码" :closable="false" :mask-closable="false" @on-ok="saveEditPass">
             <Form ref="editPasswordForm" :model="editPasswordForm" :label-width="100" label-position="right" :rules="passwordValidate">
-                <FormItem label="原密码" prop="oldPass">
-                    <Input v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码"></Input>
+                <FormItem label="原密码" prop="oldPassword">
+                    <Input type="password" v-model="editPasswordForm.oldPassword" placeholder="请输入现在使用的密码"></Input>
                 </FormItem>
                 <FormItem label="新密码" prop="password">
-                    <Input v-model="editPasswordForm.password" placeholder="请输入新密码，至少6位字符"></Input>
+                    <Input type="password" v-model="editPasswordForm.password" placeholder="请输入新密码，至少6位字符"></Input>
                 </FormItem>
                 <FormItem label="确认新密码" prop="pwdRepeat">
-                    <Input v-model="editPasswordForm.pwdRepeat" placeholder="请再次输入新密码"></Input>
+                    <Input type="password" v-model="editPasswordForm.pwdRepeat" placeholder="请再次输入新密码"></Input>
                 </FormItem>
             </Form>
-            <div slot="footer">
-                <Button type="text" @click="cancelEditPass">取消</Button>
-                <Button type="primary" :loading="savePassLoading" @click="saveEditPass">保存</Button>
-            </div>
         </Modal>
     </div>
 </template>
@@ -66,9 +62,9 @@ export default {
                 inviteCode: '',
                 phone: ''
             },
-            save_loading: false,
+            saveLoading: false,
             editPasswordModal: false,
-            savePassLoading: false,
+            formLoading: false,
             infoValidate: {
                 name: [
                     { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -83,12 +79,12 @@ export default {
                 ]
             },
             editPasswordForm: {
-                oldPass: '',
+                oldPassword: '',
                 password: '',
                 pwdRepeat: ''
             },
             passwordValidate: {
-                oldPass: [
+                oldPassword: [
                     { required: true, message: '请输入原密码', trigger: 'blur' }
                 ],
                 password: [
@@ -112,32 +108,40 @@ export default {
             })
         },
         saveEdit () {
+            let me = this
             this.$refs.userForm.validate((valid) => {
                 if (valid) {
-                    if (this.phoneHasChanged && this.userForm.cellphone !== this.initPhone) { // 手机号码修改过了而且修改之后的手机号和原来的不一样
-                        if (this.hasGetIdentifyCode) { // 判断是否点了获取验证码
-                            if (this.identifyCodeRight) { // 判断验证码是否正确
-                                this.saveInfoAjax()
-                            } else {
-                                this.$Message.error('验证码错误，请重新输入')
-                            }
-                        } else {
-                            this.$Message.warning('请先点击获取验证码')
-                        }
-                    } else {
-                        this.saveInfoAjax()
-                    }
+                    me.saveLoading = true
+                    this.$http.post('/api/user/modifyUserInfo', {
+                        id: this.userForm.id,
+                        name: this.userForm.name,
+                        phone: this.userForm.phone,
+                        identityCard: this.userForm.idCard
+                    }).then(function (response) {
+                        me.$Message.success('修改成功!')
+                        me.saveLoading = false
+                        me.cancelEditUserInfor()
+                    })
                 }
             })
         },
-        cancelEditPass () {
-            this.editPasswordModal = false
-        },
         saveEditPass () {
+            let me = this
             this.$refs.editPasswordForm.validate((valid) => {
                 if (valid) {
-                    this.savePassLoading = true
-                    // you can write ajax request here
+                    me.formLoading = true
+                    this.$http.post('/api/user/modifyLoginPassword', {
+                        oldPassword: this.editPasswordForm.oldPassword,
+                        password: this.editPasswordForm.password
+                    }).then(function (response) {
+                        me.$Message.success('修改成功!')
+                    }).catch(function () {
+
+                    }).then(function (response) {
+                        me.formLoading = false
+                        me.editPasswordModal = false
+                        me.$refs.editPasswordForm.resetFields()
+                    })
                 }
             })
         },
@@ -216,6 +220,15 @@ export default {
     margin-top: -50px;
     border-radius: 4px;
     box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+}
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ivu-modal {
+    top: 0;
   }
 }
 </style>
