@@ -1,8 +1,5 @@
 <template>
-    <div id="grid">
-        <Alert show-icon>供系统管理员使用的通道管理</Alert>
-        <Alert show-icon>可修改成本费率，用于收益计算</Alert>
-        <Alert show-icon>用户费率修改功能施工中</Alert>
+    <div>
         <Card>
             <p slot="title">
                 <Icon type="settings"></Icon>
@@ -10,6 +7,25 @@
             </p>
             <Table stripe border :loading="loading" :columns="columns" :data="data1"></Table>
         </Card>
+        <Modal v-model="showEdit" class-name="vertical-center-modal" :loading="formLoading" title="修改通道信息" :closable="false" :mask-closable="false" @on-ok="submit" :transfer="false">
+            <Form ref="editChannelForm" :model="editChannelForm" :label-width="100" label-position="right">
+                <FormItem label="平台费率" prop="platformFeeRate">
+                    <Input v-model="editChannelForm.platformFeeRate" placeholder="请输入平台费率"></Input>
+                </FormItem>
+                <FormItem label="平台代收费" prop="platformFee">
+                    <Input v-model="editChannelForm.platformFee" placeholder="请输入平台代收费"></Input>
+                </FormItem>
+                <FormItem label="成本费率" prop="costFeeRate">
+                    <Input v-model="editChannelForm.costFeeRate" placeholder="请输入成本费率"></Input>
+                </FormItem>
+                <FormItem label="成本代收费" prop="costFee">
+                    <Input v-model="editChannelForm.costFee" placeholder="请输入成本代收费"></Input>
+                </FormItem>
+                <FormItem label="通道描述" type="textarea" prop="description">
+                    <Input v-model="editChannelForm.description" placeholder="请输入通道描述"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
     </div>
 </template>
 
@@ -18,6 +34,16 @@ export default {
     data () {
         return {
             loading: false,
+            showEdit: false,
+            formLoading: false,
+            editChannelForm: {
+                id: '',
+                platformFeeRate: 0,
+                platformFee: 0,
+                costFeeRate: 0,
+                costFee: 0,
+                description: ''
+            },
             columns: [
                 {
                     title: '通道名称',
@@ -56,6 +82,10 @@ export default {
                     key: 'costFee'
                 },
                 {
+                    title: '通道描述',
+                    key: 'description'
+                },
+                {
                     title: '操作',
                     key: 'action',
                     render: (h, params) => {
@@ -80,9 +110,25 @@ export default {
     },
     methods: {
         handleEdit (id) {
-            this.$Message.warning('费率修改功能暂未上线')
+            const me = this
+            this.$http.get('/api/channel/findByIdForAdmin', { params: { id: id } }).then(function (response) {
+                const data = response.data
+                me.editChannelForm.id = data.id
+                me.editChannelForm.platformFeeRate = data.platformFeeRate
+                me.editChannelForm.platformFee = data.platformFee
+                me.editChannelForm.costFeeRate = data.costFeeRate
+                me.editChannelForm.costFee = data.costFee
+                me.editChannelForm.description = data.description
+                me.showEdit = true
+            })
         },
-        init () {
+        submit () {
+            const me = this
+            this.$http.post('/api/channel/modify', this.editChannelForm).then(function (response) {
+                me.loadData()
+            })
+        },
+        loadData () {
             let me = this
             this.loading = true
             this.$http.get('/api/channel/findAllForAdmin').then(function (response) {
@@ -92,11 +138,19 @@ export default {
         }
     },
     mounted () {
-        this.init()
+        this.loadData()
     }
 }
 </script>
 
-<style>
+<style lang="less">
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  .ivu-modal {
+    top: 0;
+  }
+}
 </style>

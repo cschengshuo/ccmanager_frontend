@@ -1,6 +1,5 @@
 <template>
     <div id="grid">
-        <Alert show-icon>施工中，提供给平台使用的通道管理，用于修改用户费率</Alert>
         <Card>
             <p slot="title">
                 <Icon type="settings"></Icon>
@@ -8,6 +7,13 @@
             </p>
             <Table stripe border :loading="loading" :columns="columns" :data="data1"></Table>
         </Card>
+        <Modal v-model="showEdit" class-name="vertical-center-modal" :loading="formLoading" title="修改通道信息" :closable="false" :mask-closable="false" @on-ok="submit" :transfer="false">
+            <Form ref="editChannelForm" :model="editChannelForm" :label-width="100" label-position="right">
+                <FormItem label="通道描述" type="textarea" prop="description">
+                    <Input v-model="editChannelForm.description" placeholder="请输入通道描述"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
     </div>
 </template>
 
@@ -16,6 +22,12 @@ export default {
     data () {
         return {
             loading: false,
+            showEdit: false,
+            formLoading: false,
+            editChannelForm: {
+                id: '',
+                description: ''
+            },
             columns: [
                 {
                     title: '通道名称',
@@ -36,6 +48,18 @@ export default {
                 {
                     title: '高级用户代收费',
                     key: 'seniorFee'
+                },
+                {
+                    title: '平台费率',
+                    key: 'platformFeeRate'
+                },
+                {
+                    title: '平台代收费',
+                    key: 'platformFee'
+                },
+                {
+                    title: '通道描述',
+                    key: 'description'
                 },
                 {
                     title: '操作',
@@ -62,9 +86,21 @@ export default {
     },
     methods: {
         handleEdit (id) {
-            this.$Message.warning('费率修改功能暂未上线')
+            const me = this
+            this.$http.get('/api/channel/findByIdForPlatform', { params: { id: id } }).then(function (response) {
+                const data = response.data
+                me.editChannelForm.id = data.id
+                me.editChannelForm.description = data.description
+                me.showEdit = true
+            })
         },
-        init () {
+        submit () {
+            const me = this
+            this.$http.post('/api/channel/modify', this.editChannelForm).then(function (response) {
+                me.loadData()
+            })
+        },
+        loadData () {
             let me = this
             this.loading = true
             this.$http.get('/api/channel/findAllForPlatform').then(function (response) {
@@ -74,7 +110,7 @@ export default {
         }
     },
     mounted () {
-        this.init()
+        this.loadData()
     }
 }
 </script>

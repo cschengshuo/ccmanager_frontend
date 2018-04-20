@@ -184,6 +184,24 @@ export const appRouter = [
         ]
     },
     {
+        path: '/user_withdraw',
+        icon: 'waterdrop',
+        title: '用户提现记录',
+        name: 'user_withdraw',
+        component: Main,
+        children: [
+            {
+                path: 'index',
+                name: 'user_withdraw_index',
+                title: '用户提现记录',
+                component: () => import('@/views/modules/UserWithdraw.vue'),
+                meta: {
+                    title: '用户提现记录'
+                }
+            }
+        ]
+    },
+    {
         path: '/statistics',
         icon: 'podium',
         title: '统计报表',

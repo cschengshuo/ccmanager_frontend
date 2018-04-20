@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import qs from 'qs'
+// import qs from 'qs'
 import THREE from '../libs/three/three'
 
 export default {
@@ -67,7 +67,7 @@ export default {
                         username: this.form.userName,
                         password: this.form.password
                     }
-                    this.$http.post('/api/auth/login', qs.stringify(loginData))
+                    this.$http.post('/api/auth/login', loginData)
                         .then(function (response) {
                             const data = response.data
                             me.$store.commit('login', data)

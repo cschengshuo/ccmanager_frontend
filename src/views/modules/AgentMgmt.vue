@@ -59,8 +59,12 @@ export default {
                     key: 'inviteCode'
                 },
                 {
-                    title: '许可证',
-                    key: 'licence'
+                    title: '身份证',
+                    key: 'identityCard'
+                },
+                {
+                    title: '代理区域',
+                    key: 'agentAreaCode'
                 },
                 {
                     title: '紧急联系人',
@@ -88,18 +92,19 @@ export default {
                                         this.modify(params.row.id)
                                     }
                                 }
-                            }, '修改'),
-                            h('Button', {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.remove(params.row.id)
-                                    }
-                                }
-                            }, '删除')
+                            }, '修改')
+                            // ,
+                            // h('Button', {
+                            //     props: {
+                            //         type: 'error',
+                            //         size: 'small'
+                            //     },
+                            //     on: {
+                            //         click: () => {
+                            //             this.remove(params.row.id)
+                            //         }
+                            //     }
+                            // }, '删除')
                         ])
                     }
                 }
