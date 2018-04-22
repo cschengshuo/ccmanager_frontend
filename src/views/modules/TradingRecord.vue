@@ -33,7 +33,7 @@ export default {
             recordDateRange: [null, null],
             loading: false,
             total: 0,
-            size: 20,
+            size: 15,
             current: 1,
             typeList: [
                 {

@@ -7,10 +7,10 @@
             </p>
             <Row :gutter="5">
                 <Col :xs="24" :sm="12" :md="12" :style="{marginBottom: '10px'}">
-                <infor-card id-name="user_created_count" :end-val="preSettlement" icon-type="social-bitcoin" color="#2d8cf0" intro-text="可提现金额"></infor-card>
+                <infor-card id-name="preSettlement" :end-val="preSettlement" icon-type="social-bitcoin" color="#2d8cf0" intro-text="可提现金额"></infor-card>
                 </Col>
                 <Col :xs="24" :sm="12" :md="12" :style="{marginBottom: '10px'}">
-                <infor-card id-name="user_created_count" :end-val="preSettlement" icon-type="social-bitcoin" color="#64d572" intro-text="已提现金额"></infor-card>
+                <infor-card id-name="balance" :end-val="balance" icon-type="social-bitcoin" color="#64d572" intro-text="已提现金额"></infor-card>
                 </Col>
             </Row>
             <Button @click="withdraw" type="success" long>提现</Button>

@@ -64,7 +64,7 @@ export default {
                 },
                 {
                     title: '下属代理带来收益',
-                    key: 'subIncome'
+                    key: 'incomeFromSub'
                 }
             ],
             data1: [],

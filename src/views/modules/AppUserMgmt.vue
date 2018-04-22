@@ -68,7 +68,7 @@ export default {
             ],
             gridData: [],
             total: 0,
-            size: 20
+            size: 15
         }
     },
     methods: {

@@ -12,7 +12,7 @@
                     <span>管理系统</span>
                 </div>
                 <div class="header-avator-con">
-                    <message-tip v-model="msgCount"></message-tip>
+                    <!-- <message-tip v-model="msgCount"></message-tip> -->
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
                             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">

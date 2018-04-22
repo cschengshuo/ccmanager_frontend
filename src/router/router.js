@@ -66,14 +66,6 @@ export const otherRouter = {
             meta: {
                 title: '个人中心'
             }
-        },
-        {
-            path: 'message',
-            name: 'message_index',
-            component: () => import('@/views/modules/Message.vue'),
-            mete: {
-                title: '消息中心'
-            }
         }
     ]
 }
@@ -226,6 +218,24 @@ export const appRouter = [
                 component: () => import('@/views/modules/UserReport.vue'),
                 meta: {
                     title: '用户报表'
+                }
+            }
+        ]
+    },
+    {
+        path: '/message',
+        icon: 'information-circled',
+        title: '推送通知',
+        name: 'message',
+        component: Main,
+        children: [
+            {
+                path: 'index',
+                name: 'message_index',
+                title: '推送通知',
+                component: () => import('@/views/modules/Message.vue'),
+                meta: {
+                    title: '推送通知'
                 }
             }
         ]
