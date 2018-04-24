@@ -10,9 +10,9 @@
                 <Badge count="1" style="margin-right: 10px">
                     <Button @click="auditAddAgent" type="info">新增代理审核</Button>
                 </Badge>
-                <Badge count="0" style="margin-right: 10px">
+                <!-- <Badge count="0" style="margin-right: 10px">
                     <Button @click="auditDeleteAgent" type="warning">删除代理审核</Button>
-                </Badge>
+                </Badge> -->
             </div>
             <Input v-model="search" icon="search" placeholder="登录名" style="width: 200px"></Input>
             <Button @click="query" type="primary">查询</Button>

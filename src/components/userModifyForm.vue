@@ -26,7 +26,7 @@
                     <Button slot="append" @click="showSetFeeRateModal" icon="arrow-down-b"></Button>
                     </Input>
                 </FormItem>
-                <FormItem label="代理区域" required prop="areaName">
+                <FormItem label="代理区域" prop="areaName">
                     <Input readonly v-model="formData.areaName" placeholder="点击按钮设置代理区域">
                     <Button slot="append" @click="showAgentAreaModal" icon="arrow-down-b"></Button>
                     </Input>
@@ -95,9 +95,6 @@ export default {
                 ],
                 feeRateStr: [
                     { validator: this.validateFeeRate, trigger: 'blur' }
-                ],
-                areaName: [
-                    { validator: this.validateAgentArea, trigger: 'blur' }
                 ]
             }
         }
@@ -194,13 +191,6 @@ export default {
             let result = util.checkCard(value)
             if (!result.pass) {
                 callback(new Error(result.tip))
-            } else {
-                callback()
-            }
-        },
-        validateAgentArea (rule, value, callback) {
-            if (!value) {
-                callback(new Error('请设置代理区域'))
             } else {
                 callback()
             }
