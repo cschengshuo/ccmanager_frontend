@@ -228,6 +228,7 @@ export const appRouter = [
         title: '推送通知',
         name: 'message',
         component: Main,
+        access: ['ADMIN', 'PLATFORM'],
         children: [
             {
                 path: 'index',
