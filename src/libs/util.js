@@ -301,7 +301,7 @@ const checkCard = (code) => {
 }
 
 const strip = (num, precision = 12) => {
-    return +parseFloat(num.toPrecision(precision))
+    return parseFloat(num.toPrecision(precision))
 }
 
 const util = { checkCard, title, inOf, oneOf, showThisRoute, getRouterObjByName, handleTitle, setCurrentPath, toDefaultPage, openNewPage, strip }

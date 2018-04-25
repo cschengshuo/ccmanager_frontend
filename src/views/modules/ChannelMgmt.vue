@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import util from '../../libs/util'
+
 export default {
     data () {
         return {
@@ -51,7 +53,12 @@ export default {
                 },
                 {
                     title: '用户费率',
-                    key: 'feeRate'
+                    key: 'feeRate',
+                    render: (h, params) => {
+                        let feeRate = params.row.feeRate * 1000
+                        let liter = util.strip(feeRate) + '‰'
+                        return h('div', liter)
+                    }
                 },
                 {
                     title: '用户代收费',
@@ -59,7 +66,12 @@ export default {
                 },
                 {
                     title: '高级用户费率',
-                    key: 'seniorFeeRate'
+                    key: 'seniorFeeRate',
+                    render: (h, params) => {
+                        let seniorFeeRate = params.row.seniorFeeRate * 1000
+                        let liter = util.strip(seniorFeeRate) + '‰'
+                        return h('div', liter)
+                    }
                 },
                 {
                     title: '高级用户代收费',
@@ -67,7 +79,12 @@ export default {
                 },
                 {
                     title: '平台费率',
-                    key: 'platformFeeRate'
+                    key: 'platformFeeRate',
+                    render: (h, params) => {
+                        let platformFeeRate = params.row.platformFeeRate * 1000
+                        let liter = util.strip(platformFeeRate) + '‰'
+                        return h('div', liter)
+                    }
                 },
                 {
                     title: '平台代收费',
@@ -75,7 +92,12 @@ export default {
                 },
                 {
                     title: '成本费率',
-                    key: 'costFeeRate'
+                    key: 'costFeeRate',
+                    render: (h, params) => {
+                        let costFeeRate = params.row.costFeeRate * 1000
+                        let liter = util.strip(costFeeRate) + '‰'
+                        return h('div', liter)
+                    }
                 },
                 {
                     title: '成本代收费',
