@@ -46,7 +46,6 @@ export default {
             current: 1,
             recharge: 0,
             withdraw: 0,
-            balance: 0,
             toWithDraw: 0,
             columns: [
                 {
@@ -171,7 +170,7 @@ export default {
         },
         loadRecharge () {
             const me = this
-            this.$http.get('').then(function (response) {
+            this.$http.get('/api/recharge/getPlatformRecharge').then(function (response) {
                 me.recharge = response.data
             })
         },
@@ -197,10 +196,16 @@ export default {
             this.loadData()
             this.loadToWithDraw()
             this.loadWithdraw()
+            this.loadRecharge()
         }
     },
     mounted () {
         this.init()
+    },
+    computed: {
+        balance () {
+            return this.recharge - this.withdraw
+        }
     }
 }
 </script>

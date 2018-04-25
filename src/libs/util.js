@@ -280,7 +280,7 @@ const checkCard = (code) => {
             // 加权因子
             let factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
             // 校验位
-            let parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2]
+            let parity = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
             let sum = 0
             let ai = 0
             let wi = 0
@@ -290,7 +290,7 @@ const checkCard = (code) => {
                 sum += ai * wi
             }
             let last = parity[sum % 11]
-            let lastCode = parseInt(code[17])
+            let lastCode = code[17]
             if (last !== lastCode) {
                 tip = '校验位错误'
                 pass = false
