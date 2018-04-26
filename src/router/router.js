@@ -54,7 +54,7 @@ export const otherRouter = {
         {
             path: 'home',
             name: 'home_index',
-            component: () => import('@/views/home/Home.vue'),
+            component: () => import('@/views/modules/Home.vue'),
             meta: {
                 title: '管理平台'
             }
