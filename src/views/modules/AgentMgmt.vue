@@ -17,7 +17,7 @@
             <Input v-model="search" icon="search" placeholder="登录名" style="width: 200px"></Input>
             <Button @click="query" type="primary">查询</Button>
             <Button @click="showAdvancedQuery" type="primary">高级查询</Button>
-            <Table stripe border style="margin-top:10px" :loading="loading" :columns="columns" :data="gridData"></Table>
+            <Table stripe border style="margin-top:10px" :loading="loading" :columns="columns" :data="gridData" height="800"></Table>
         </Card>
         <user-create-form :open.sync="showCreateForm" @success="loadData"></user-create-form>
         <user-modify-form :open.sync="showModifyForm" :userId="modifyUserId" @success="loadData"></user-modify-form>
@@ -27,6 +27,9 @@
 <script>
 import userCreateForm from '@/components/userCreateForm.vue'
 import userModifyForm from '@/components/userModifyForm.vue'
+
+import gb2260 from 'gb2260'
+gb2260.register('201607', require('gb2260/lib/201607'))
 
 export default {
     components: {
@@ -41,6 +44,7 @@ export default {
             showCreateForm: false,
             showModifyForm: false,
             modifyUserId: '',
+            gb: new gb2260.GB2260(),
             columns: [
                 {
                     title: '姓名',
@@ -64,7 +68,14 @@ export default {
                 },
                 {
                     title: '代理区域',
-                    key: 'agentAreaCode'
+                    key: 'agentAreaCode',
+                    render: (h, params) => {
+                        let area
+                        if (params.row.agentAreaCode) {
+                            area = this.gb.get(params.row.agentAreaCode).toString()
+                        }
+                        return h('span', area)
+                    }
                 },
                 {
                     title: '紧急联系人',

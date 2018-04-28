@@ -13,6 +13,7 @@ Vue.use(iviewArea)
 Vue.use(iView)
 Vue.prototype.$http = axios
 axios.defaults.baseURL = '/'
+axios.defaults.headers['Accept-Language'] = 'zh-CN'
 
 axios.interceptors.request.use(config => {
     if (sessionStorage.jwt) { // 判断是否存在token，如果存在的话，则每个http header都加上token

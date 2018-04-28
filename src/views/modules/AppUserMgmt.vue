@@ -24,6 +24,7 @@ export default {
     },
     data () {
         return {
+            agentId: '',
             loading: false,
             columns: [
                 {
@@ -79,14 +80,14 @@ export default {
             this.$Message.warning('删除手机用户功能暂未上线')
         },
         changePage (page) {
-            this.loadData('', page)
+            this.loadData(page)
         },
-        loadData (id, page) {
+        loadData (page) {
             let me = this
             this.loading = true
 
             let data = {
-                agentId: id,
+                agentId: this.agentId,
                 size: this.size
             }
 
@@ -102,7 +103,8 @@ export default {
         },
         onSelectChange (e) {
             if (e.length > 0) {
-                this.loadData(e[0].value)
+                this.agentId = e[0].value
+                this.loadData()
             }
         }
     },
