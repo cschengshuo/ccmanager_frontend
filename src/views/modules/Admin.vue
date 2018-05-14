@@ -25,6 +25,9 @@
                     <Button @click="initPlatformUserFee" type="info">初始化平台用户费率</Button>
                 </FormItem>
                 <FormItem>
+                    <Button @click="doCreateMerchant" type="info">老用户商户开通</Button>
+                </FormItem>
+                <FormItem>
                     <Input v-model="money" placeholder="Enter something..."></Input>
                     <Button @click="addRechargeRecord" type="info">充值</Button>
                 </FormItem>
@@ -73,6 +76,12 @@ export default {
         },
         initPlatformUserFee () {
             this.$http.post('/api/init/initPlatformUserFee')
+                .then((response) => {
+
+                })
+        },
+        doCreateMerchant () {
+            this.$http.post('/api/init/doCreateMerchant')
                 .then((response) => {
 
                 })
