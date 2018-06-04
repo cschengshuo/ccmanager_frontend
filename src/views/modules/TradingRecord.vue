@@ -15,7 +15,7 @@
             </Select>
             <date-picker v-model="recordDateRange" type="daterange" confirm placement="bottom-end" placeholder="选择时间范围" style="width: 200px"></date-picker> -->
             <Button @click="query" type="primary">查询</Button>
-            <Button @click="showAdvancedQuery" type="primary">高级查询</Button>
+            <!-- <Button @click="showAdvancedQuery" type="primary">高级查询</Button> -->
             <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data1"></Table>
             <Page :total="total" :current.sync="current" :page-size="size" @on-change="changePage" show-total></Page>
         </Card>
@@ -213,5 +213,4 @@ export default {
 </script>
 
 <style>
-
 </style>

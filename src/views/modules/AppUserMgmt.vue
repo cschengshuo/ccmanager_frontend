@@ -8,6 +8,10 @@
             </Sider>
             <Content :style="{background: '#F0F0F0'}">
                 <Card>
+                    <Input v-model="username" icon="search" placeholder="姓名" style="width: 200px"></Input>
+                    <Input v-model="mobile" icon="search" placeholder="手机号" style="width: 200px"></Input>
+                    <Input v-model="idCard" icon="search" placeholder="身份证" style="width: 200px"></Input>
+                    <Button @click="query" type="primary">查询</Button>
                     <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="gridData"></Table>
                     <Page :total="total" :page-size="size" @on-change="changePage" show-total></Page>
                 </Card>
@@ -25,6 +29,9 @@ export default {
     data () {
         return {
             agentId: '',
+            username: '',
+            mobile: '',
+            idCard: '',
             loading: false,
             columns: [
                 {
@@ -60,9 +67,9 @@ export default {
                     key: 'seniorUser',
                     render: (h, params) => {
                         if (params.row.seniorUser) {
-                            return h('span', '是')
+                            return h('span', { attrs: { 'class': 'i-emoji' } }, '\u2714')
                         } else {
-                            return h('span', '否')
+                            return h('span', { attrs: { 'class': 'i-emoji' } }, '\u274C')
                         }
                     }
                 }
@@ -82,6 +89,9 @@ export default {
         changePage (page) {
             this.loadData(page)
         },
+        query () {
+            this.loadData()
+        },
         loadData (page) {
             let me = this
             this.loading = true
@@ -90,6 +100,10 @@ export default {
                 agentId: this.agentId,
                 size: this.size
             }
+
+            if (this.username) data.username = this.username
+            if (this.mobile) data.mobile = this.mobile
+            if (this.idCard) data.idCard = this.idCard
 
             if (page) {
                 data.page = page - 1
@@ -115,5 +129,7 @@ export default {
 </script>
 
 <style>
-
+.i-emoji {
+  font-family: "Segoe UI Emoji";
+}
 </style>

@@ -5,7 +5,7 @@
                 <Icon type="person-add"></Icon>
                 发送公告
             </p>
-            <Input v-model="announcement" type="textarea" :rows="4" placeholder="公告内容"></Input>
+            <Input style="margin-bottom:10px" v-model="announcement" type="textarea" :rows="4" placeholder="公告内容"></Input>
             <Button @click="confirm">发送</Button>
         </Card>
         <Card>
@@ -45,6 +45,11 @@ export default {
     methods: {
         confirm () {
             const me = this
+
+            if (!this.announcement) {
+                this.$Message.warning('请输入公告内容')
+                return
+            }
 
             this.$Modal.confirm({
                 title: '确认发送',
@@ -92,5 +97,4 @@ export default {
 </script>
 
 <style>
-
 </style>

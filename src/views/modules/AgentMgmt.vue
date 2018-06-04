@@ -16,7 +16,7 @@
             </div>
             <Input v-model="search" icon="search" placeholder="登录名" style="width: 200px"></Input>
             <Button @click="query" type="primary">查询</Button>
-            <Button @click="showAdvancedQuery" type="primary">高级查询</Button>
+            <!-- <Button @click="showAdvancedQuery" type="primary">高级查询</Button> -->
             <Table stripe border style="margin-top:10px" :loading="loading" :columns="columns" :data="gridData" height="800"></Table>
         </Card>
         <user-create-form :open.sync="showCreateForm" @success="loadData"></user-create-form>
@@ -166,5 +166,4 @@ export default {
 </script>
 
 <style lang="less">
-
 </style>
