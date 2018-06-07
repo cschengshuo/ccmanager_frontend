@@ -80,11 +80,22 @@ export const appRouter = [
         children: [
             {
                 path: 'index',
+                icon: 'person-stalker',
                 name: 'agent_mgmt_index',
                 title: '代理商管理',
                 component: () => import('@/views/modules/AgentMgmt.vue'),
                 meta: {
                     title: '代理商管理'
+                }
+            },
+            {
+                path: 'agent_apply',
+                icon: 'printer',
+                name: 'agent_apply_index',
+                title: '代理申请列表',
+                component: () => import('@/views/modules/AgentApply.vue'),
+                meta: {
+                    title: '代理申请列表'
                 }
             }
         ]

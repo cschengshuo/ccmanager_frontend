@@ -79,7 +79,7 @@ export default {
         getIncomeReport () {
             let me = this
             this.loading = true
-            this.$http.get('/api/report/getReport', {
+            this.$http.get('/api/income_report/getReport', {
                 params: {
                     type: this.incomeReportType,
                     start: this.reportDateRange[0],
@@ -111,5 +111,4 @@ export default {
 </script>
 
 <style>
-
 </style>
