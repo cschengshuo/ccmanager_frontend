@@ -25,7 +25,7 @@
                 <Icon type="settings"></Icon>
                 用户提现记录
             </p>
-            <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data"></Table>
+            <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data" ref="table" :height="tableHeight"></Table>
             <Page :total="total" :current.sync="current" :page-size="size" @on-change="changePage" show-total></Page>
         </Card>
     </div>
@@ -39,6 +39,7 @@ export default {
     },
     data () {
         return {
+            tableHeight: 600,
             loading: false,
             data: [],
             total: 0,
@@ -200,6 +201,9 @@ export default {
         }
     },
     mounted () {
+        this.$nextTick(function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 342
+        })
         this.init()
     },
     computed: {
@@ -211,5 +215,4 @@ export default {
 </script>
 
 <style>
-
 </style>

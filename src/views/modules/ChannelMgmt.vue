@@ -5,7 +5,7 @@
                 <Icon type="settings"></Icon>
                 通道管理
             </p>
-            <Table stripe border :loading="loading" :columns="columns" :data="data1"></Table>
+            <Table stripe border :loading="loading" :columns="columns" :data="data1" ref="table" :height="tableHeight"></Table>
         </Card>
         <Modal v-model="showEdit" class-name="vertical-center-modal" :loading="formLoading" title="修改通道信息" :closable="false" :mask-closable="false" @on-ok="submit" :transfer="false">
             <Form ref="editChannelForm" :model="editChannelForm" :label-width="100" label-position="right">
@@ -35,6 +35,7 @@ import util from '../../libs/util'
 export default {
     data () {
         return {
+            tableHeight: 600,
             loading: false,
             showEdit: false,
             formLoading: false,
@@ -160,6 +161,9 @@ export default {
         }
     },
     mounted () {
+        this.$nextTick(function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 100
+        })
         this.loadData()
     }
 }

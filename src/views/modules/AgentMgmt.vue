@@ -17,7 +17,7 @@
             <Input v-model="search" icon="search" placeholder="登录名" style="width: 200px"></Input>
             <Button @click="query" type="primary">查询</Button>
             <!-- <Button @click="showAdvancedQuery" type="primary">高级查询</Button> -->
-            <Table stripe border style="margin-top:10px" :loading="loading" :columns="columns" :data="gridData" height="800"></Table>
+            <Table stripe border style="margin-top:10px" :loading="loading" :columns="columns" :data="gridData" ref="table" :height="tableHeight"></Table>
         </Card>
         <user-create-form :open.sync="showCreateForm" @success="loadData"></user-create-form>
         <user-modify-form :open.sync="showModifyForm" :userId="modifyUserId" @success="loadData"></user-modify-form>
@@ -38,6 +38,7 @@ export default {
     },
     data () {
         return {
+            tableHeight: 750,
             search: '',
             loading: false,
             formLoading: true,
@@ -160,10 +161,13 @@ export default {
         }
     },
     mounted () {
+        this.$nextTick(function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 100
+        })
         this.loadData()
     }
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 </style>

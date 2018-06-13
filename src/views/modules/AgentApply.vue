@@ -5,7 +5,7 @@
                 <Icon type="settings"></Icon>
                 代理申请列表
             </p>
-            <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data1"></Table>
+            <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data1" ref="table" :height="tableHeight"></Table>
             <Page :total="total" :current.sync="current" :page-size="size" @on-change="changePage" show-total></Page>
         </Card>
     </div>
@@ -15,9 +15,10 @@
 export default {
     data () {
         return {
+            tableHeight: 700,
             loading: false,
             total: 0,
-            size: 15,
+            size: 20,
             current: 1,
             columns: [
                 {
@@ -66,6 +67,9 @@ export default {
         }
     },
     mounted () {
+        this.$nextTick(function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 145
+        })
         this.loadData()
     }
 }

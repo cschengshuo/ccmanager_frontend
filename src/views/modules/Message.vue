@@ -13,7 +13,7 @@
                 <Icon type="settings"></Icon>
                 公告发送记录
             </p>
-            <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data"></Table>
+            <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="data" ref="table" :height="tableHeight"></Table>
             <Page :total="total" :current.sync="current" :page-size="size" @on-change="changePage" show-total></Page>
         </Card>
     </div>
@@ -23,6 +23,7 @@
 export default {
     data () {
         return {
+            tableHeight: 600,
             announcement: '',
             loading: false,
             data: [],
@@ -91,6 +92,9 @@ export default {
         }
     },
     mounted () {
+        this.$nextTick(function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 375
+        })
         this.init()
     }
 }

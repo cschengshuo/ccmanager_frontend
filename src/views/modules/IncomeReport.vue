@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Card style="margin-bottom:200px">
+        <Card>
             <p slot="title">
                 <Icon type="settings"></Icon>
                 收益报表
@@ -13,7 +13,7 @@
                 <Button @click="getIncomeReport" :loading="loading" type="primary">查看</Button>
             </Row>
             <Row>
-                <Table style="margin-top:10px" stripe border :loading="loading" :columns="columns" :data="data1"></Table>
+                <Table style="margin-top:10px" stripe border :loading="loading" :columns="columns" :data="data1" ref="table" :height="tableHeight"></Table>
             </Row>
         </Card>
     </div>
@@ -23,6 +23,7 @@
 export default {
     data () {
         return {
+            tableHeight: 600,
             loading: false,
             incomeReportType: 1,
             showDateRange: false,
@@ -105,6 +106,9 @@ export default {
         }
     },
     mounted () {
+        this.$nextTick(function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 200
+        })
         this.init()
     }
 }

@@ -12,7 +12,7 @@
                     <Input v-model="mobile" icon="search" placeholder="手机号" style="width: 200px"></Input>
                     <Input v-model="idCard" icon="search" placeholder="身份证" style="width: 200px"></Input>
                     <Button @click="query" type="primary">查询</Button>
-                    <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="gridData"></Table>
+                    <Table stripe border style="margin: 10px 0" :loading="loading" :columns="columns" :data="gridData" ref="table" :height="tableHeight"></Table>
                     <Page :total="total" :page-size="size" @on-change="changePage" show-total></Page>
                 </Card>
             </Content>
@@ -28,6 +28,7 @@ export default {
     },
     data () {
         return {
+            tableHeight: 700,
             agentId: '',
             username: '',
             mobile: '',
@@ -123,6 +124,9 @@ export default {
         }
     },
     mounted () {
+        this.$nextTick(function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 145
+        })
         this.loadData()
     }
 }
